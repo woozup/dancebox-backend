@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <h3 class="title">vue-admin-template</h3>
+      <h3 class="title">DanceBox后台系统</h3>
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -25,13 +25,9 @@
       </el-form-item>
       <el-form-item>
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
-          Sign in
+          登陆
         </el-button>
       </el-form-item>
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: admin</span>
-      </div>
     </el-form>
   </div>
 </template>
@@ -107,7 +103,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-$bg:#2d3a4b;
+$bg: #4b151c;
 $light_gray:#eee;
 
 /* reset element-ui css */
@@ -141,14 +137,14 @@ $light_gray:#eee;
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg:#2d3a4b;
+$bg: #d1781d;
 $dark_gray:#889aa4;
-$light_gray:#eee;
+$light_gray: #ee764c;
 .login-container {
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: $bg;
+  background-image: url("/static/bg.jpeg");
   .login-form {
     position: absolute;
     left: 0;
@@ -176,7 +172,7 @@ $light_gray:#eee;
     display: inline-block;
   }
   .title {
-    font-size: 26px;
+    font-size: 46px;
     font-weight: 400;
     color: $light_gray;
     margin: 0px auto 40px auto;
