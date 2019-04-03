@@ -39,40 +39,26 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/example',
+    path: '/activity',
     component: Layout,
-    redirect: '/example/table',
+    redirect: '/activity/table',
     name: 'activity',
     meta: { title: '活动管理', icon: 'example' },
     children: [
       {
-        path: 'table',
+        path: 'list',
         name: 'list',
         component: () => import('@/views/activity/list'),
         meta: { title: '活动列表', icon: 'table' }
       },
       {
-        path: 'form',
+        path: 'create',
         name: 'form',
         component: () => import('@/views/activity/form'),
         meta: { title: '添加活动', icon: 'table' }
       }
     ]
   },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
   {
     path: '/nested',
     component: Layout,

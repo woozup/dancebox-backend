@@ -17,6 +17,20 @@
         </el-col>
         <el-col :span="2" class="line">-</el-col>
       </el-form-item>
+      <el-form-item label="城市">
+        <el-select v-model="form.city" placeholder="请选择">
+          <el-option-group
+            v-for="group in options3"
+            :key="group.label"
+            :label="group.label">
+            <el-option
+              v-for="item in group.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"/>
+          </el-option-group>
+        </el-select>
+      </el-form-item>
       <el-form-item label="活动地址">
         <el-input v-model="form.location" />
       </el-form-item>
@@ -28,42 +42,19 @@
           class="avatar-uploader"
           action="/api/img"
         >
-          <img
-            v-if="imageUrl"
-            :src="imageUrl"
-            class="avatar"
-          >
-          <i v-else class="el-icon-plus avatar-uploader-icon" />
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"/>
         </el-upload>
-      </el-form-item>
-      <el-form-item label="活动介绍">
-        <el-input v-model="form.desc" type="textarea" />
-      </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery" />
+
       </el-form-item>
       <el-form-item label="活动标签">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="比赛" name="type" />
-          <el-checkbox label="音乐" name="type" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor" />
-          <el-radio label="Venue" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="比赛项目">
-        <el-checkbox-group v-model="form.project">
-          <el-checkbox label="Popping" name="type" />
-          <el-checkbox label="Breaking" name="type" />
-          <el-checkbox label="Hiphop" name="type" />
-          <el-checkbox label="Locking" name="type" />
+        <el-checkbox-group v-model="form.remark">
+          <el-checkbox label="比赛" name="type" value="比赛" />
+          <el-checkbox label="音乐" name="type" value="音乐" />
         </el-checkbox-group>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
+        <el-button type="primary" @click="onSubmit">提交</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -79,12 +70,37 @@ export default {
         date1: '',
         date2: '',
         delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        remark: [],
+        desc: '',
+        project: [],
+        img: ''
       },
-      handleAvatarSuccess: {},
-      imageUrl: ''
+      imageUrl: '',
+      options3: [{
+        label: '热门城市',
+        options: [{
+          value: 'Shanghai',
+          label: '上海'
+        }, {
+          value: 'Beijing',
+          label: '北京'
+        }]
+      }, {
+        label: '城市名',
+        options: [{
+          value: 'Chengdu',
+          label: '成都'
+        }, {
+          value: 'Shenzhen',
+          label: '深圳'
+        }, {
+          value: 'Guangzhou',
+          label: '广州'
+        }, {
+          value: 'Dalian',
+          label: '大连'
+        }]
+      }]
     }
   },
   methods: {
@@ -95,6 +111,7 @@ export default {
           this.$store.dispatch('createActivity', this.form)
             .then(() => {
               this.loading = false
+              this.$router.push({ path: '/activity/list' })
             })
             .catch(() => {
               this.loading = false
@@ -104,7 +121,22 @@ export default {
         }
       })
     },
-    beforeAvatarUpload() {}
+    handleAvatarSuccess(res, file) {
+      this.form.img = res.file_name
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    }
   }
 }
 </script>

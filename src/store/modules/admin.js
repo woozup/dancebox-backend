@@ -1,9 +1,9 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
-const user = {
+const admin = {
   state: {
-    token: getToken(),
+    session_token: getToken(),
     name: '',
     avatar: '',
     roles: []
@@ -11,7 +11,7 @@ const user = {
 
   mutations: {
     SET_TOKEN: (state, token) => {
-      state.token = token
+      state.session_token = token
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -23,35 +23,24 @@ const user = {
       state.roles = roles
     }
   },
-
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
-      return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
-          const data = response.data
-          setToken(data.token)
-          commit('SET_TOKEN', data.token)
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
+      const email = userInfo.email.trim()
+      return login(email, userInfo.password).then(response => {
+        console.log(response.session_token)
+        setToken(response.session_token)
+        commit('SET_TOKEN', response.session_token)
       })
     },
 
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
-          const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
+        getInfo(state.session_token).then(response => {
+          const user_info = response.user_info
+          commit('SET_NAME', user_info.user_name)
+          commit('SET_AVATAR', user_info.avatar)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -84,4 +73,4 @@ const user = {
   }
 }
 
-export default user
+export default admin

@@ -1,5 +1,5 @@
 import { getToken } from '@/utils/auth'
-import { create } from '@/api/activity'
+import { create, getList } from '@/api/activity'
 const user = {
   state: {
     token: getToken(),
@@ -14,9 +14,11 @@ const user = {
     }
   },
   actions: {
-    // 登出
     async createActivity({ commit, state }, data) {
       return create(data)
+    },
+    async getActivityList({ commit, state }, data) {
+      return getList(data)
     }
   }
 }
