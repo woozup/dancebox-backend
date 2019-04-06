@@ -24,7 +24,7 @@
       </el-table-column>
       <el-table-column label="图片" width="110" align="center">
         <template slot-scope="scope">
-          <span> <img :src="'/api/img/' +scope.row.img" width="100" height="100"></span>
+          <span> <img :src="scope.row.img" width="100" height="100"></span>
         </template>
       </el-table-column>
       <el-table-column label="位置" width="110" align="center">
@@ -113,7 +113,7 @@ export default {
       })
     },
     showDetail(id) {
-      this.$router.push({ path: '/activity/detail' })
+      this.$router.push({ path: '/activity/detail', query: { id }})
     }
   }
 }

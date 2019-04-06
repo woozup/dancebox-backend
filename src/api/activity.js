@@ -25,3 +25,21 @@ export function putStatus({ status, id }) {
     }
   })
 }
+
+export function createPersonal({ name, type, img }) {
+  return request({
+    url: '/api/admin/personal',
+    method: 'post',
+    data: {
+      name,
+      type,
+      img
+    }
+  })
+}
+export function getPersonal() {
+  return request({
+    url: '/api/admin/personal',
+    method: 'get'
+  })
+}
