@@ -43,3 +43,10 @@ export function getPersonal() {
     method: 'get'
   })
 }
+
+export function createGame() {
+  return request({
+    url: '/api/admin/game',
+    method: 'post'
+  })
+}

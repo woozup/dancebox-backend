@@ -93,7 +93,7 @@
       </el-dialog>
       <guest/>
       <project/>
-      <el-button>保存</el-button>
+      <el-button @click="save">保存</el-button>
     </div>
   </div>
 </template>
@@ -135,6 +135,11 @@ export default {
         detail: ''
       },
       formLabelWidth: '120px'
+    }
+  },
+  methods: {
+    save() {
+
     }
   }
 }

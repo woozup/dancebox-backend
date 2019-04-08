@@ -7,7 +7,9 @@ const activity = {
     avatar: '',
     roles: [],
     detail: {},
-    showDetail: false
+    showDetail: false,
+    personal_list: [],
+    personal_select: []
   },
   mutations: {
     SET_TOKEN: (state, token) => {
