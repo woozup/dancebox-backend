@@ -80,6 +80,7 @@ export default {
       this.table.push({
         ...this.levelLine
       })
+      this.$store.commit('SET_TABLE', this.table)
     }
   }
 }

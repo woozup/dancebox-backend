@@ -2,7 +2,7 @@
   <div class="main">
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="[detail.activity]"
       element-loading-text="Loading"
       border
       fit
@@ -24,7 +24,7 @@
       </el-table-column>
       <el-table-column label="图片" width="110" align="center">
         <template slot-scope="scope">
-          <span> <img :src="'/api/img/' +scope.row.img" width="100" height="100"></span>
+          <span> <img :src="scope.row.img" width="100" height="100"></span>
         </template>
       </el-table-column>
       <el-table-column label="位置" width="110" align="center">
@@ -39,7 +39,8 @@
       </el-table-column>
       <el-table-column class-name="status-col" label="状态" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status | statusFilter }}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter">  {{ scope.row.status === 0 ? 1 : 0 | statusFilter }}</el-tag>
+
         </template>
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="时间" width="200">
@@ -57,31 +58,24 @@
           <el-button
             type="text"
             size="small"
-            @click.native.prevent="deleteRow(scope.row.id, scope.row.status === 0 ? 1 : 0)"
-          >
-            {{ scope.row.status === 0 ? 1 : 0 | statusFilter }}
-          </el-button>
-          <el-button
-            type="text"
-            size="small"
             @click.native.prevent="deleteRow(scope.row.id)"
           >
-            查看
+            删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="game">
       <h1>赛事</h1>
-      <el-button type="text" @click="dialogFormVisible = true">添加赛事</el-button>
+      <el-button type="text" @click="dialogFormVisible = true">编辑详情</el-button>
       <el-dialog
         :visible.sync="dialogFormVisible"
         title="赛事详情"
       >
-        <el-form :model="form">
+        <el-form>
           <el-input
             :autosize="{ minRows: 2, maxRows: 4}"
-            v-model="form.detail"
+            v-model="detail.game.desc"
             type="textarea"
             placeholder="请输入内容"
           />
@@ -91,9 +85,15 @@
           <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
         </div>
       </el-dialog>
+      <p>{{ detail.game.desc }}</p>
       <guest/>
       <project/>
+      <organizer/>
+      <sponsor/>
       <el-button @click="save">保存</el-button>
+    </div>
+    <div class="teach">
+      <h1>授课</h1>
     </div>
   </div>
 </template>
@@ -101,6 +101,9 @@
 <script>
 import guest from './guest'
 import project from './project'
+import organizer from './organizer'
+import sponsor from './sponsor'
+import { mapState } from 'vuex'
 export default {
   filters: {
     statusFilter(status) {
@@ -110,36 +113,38 @@ export default {
   },
   components: {
     guest: guest,
-    project: project
+    project: project,
+    sponsor: sponsor,
+    organizer: organizer
   },
   data() {
     return {
-      list: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }
-      ],
+      list: [],
       listLoading: false,
       dialogTableVisible: false,
       dialogFormVisible: false,
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        detail: ''
-      },
       formLabelWidth: '120px'
     }
   },
+  computed: {
+    ...mapState({
+      detail: state => state.activity.detail
+    })
+  },
+  watch: {
+    detail(val) {
+      console.log(4444)
+      console.log(val)
+    }
+  },
+  created() {
+    this.$store.dispatch('getDetail', this.$route.query.id)
+  },
+  mounted() {
+  },
   methods: {
     save() {
-
+      this.$store.dispatch('createGame', { activity_id: this.$route.query.id })
     }
   }
 }
@@ -158,5 +163,12 @@ export default {
   align-items: center;
   flex-direction: column;
   max-width: 600px;
+}
+.teach{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 60px;
 }
 </style>
