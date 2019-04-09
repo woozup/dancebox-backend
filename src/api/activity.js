@@ -15,6 +15,12 @@ export function getList(data) {
   })
 }
 
+export function getDetail(id) {
+  return request({
+    url: `/api/admin/activity?id=${id}`,
+    method: 'get'
+  })
+}
 export function putStatus({ status, id }) {
   return request({
     url: '/api/admin/activity',
@@ -44,9 +50,10 @@ export function getPersonal() {
   })
 }
 
-export function createGame() {
+export function createGame(data) {
   return request({
     url: '/api/admin/game',
-    method: 'post'
+    method: 'post',
+    data
   })
 }
