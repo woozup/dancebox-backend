@@ -34,7 +34,7 @@
       <el-form-item label="活动地址">
         <el-input v-model="form.location" />
       </el-form-item>
-      <el-form-item label="活动图片">
+      <el-form-item label="活动封面">
         <el-upload
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
@@ -46,6 +46,18 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"/>
         </el-upload>
 
+      </el-form-item>
+      <el-form-item label="活动Banner">
+        <el-upload
+          :show-file-list="false"
+          :on-success="handleBannerSuccess"
+          :before-upload="beforeAvatarUpload"
+          class="avatar-uploader"
+          action="/api/img"
+        >
+          <img v-if="BannerImageUrl" :src="BannerImageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"/>
+        </el-upload>
       </el-form-item>
       <el-form-item label="活动标签">
         <el-checkbox-group v-model="form.remark">
@@ -76,6 +88,7 @@ export default {
         img: ''
       },
       imageUrl: '',
+      BannerImageUrl: '',
       options3: [{
         label: '热门城市',
         options: [{
@@ -122,20 +135,21 @@ export default {
       })
     },
     handleAvatarSuccess(res, file) {
+      console.log(file)
       this.form.img = res.file_name
       this.imageUrl = URL.createObjectURL(file.raw)
     },
+    handleBannerSuccess(res, file) {
+      console.log(file)
+      this.form.banner_img = res.file_name
+      this.BannerImageUrl = URL.createObjectURL(file.raw)
+    },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M
+      return isLt2M
     }
   }
 }
