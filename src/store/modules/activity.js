@@ -4,7 +4,11 @@ const activity = {
   state: {
     token: getToken(),
     detail: {
-      game: {},
+      game: {
+        project: {
+          table: []
+        }
+      },
       activity: {}
     },
     showDetail: false,
@@ -20,8 +24,10 @@ const activity = {
     SET_GUEST: (state, list) => {
       state.detail.guest = list
     },
-    SET_TABLE: (state, project) => {
-      state.detail.project = project
+    SET_TABLE: (state, data) => {
+      // console.log(state.detail.game.project.table)
+      // state.detail.game.project.table.push(data)
+      state.detail.game.project = data
     },
     SET_ORGANIZER: (state, organizer) => {
       state.detail.organizer = organizer
@@ -46,11 +52,11 @@ const activity = {
     },
     async createGame({ commit, state }, { activity_id }) {
       return createGame({
-        desc: state.detail.desc,
-        guest: state.detail.guest,
-        project: state.detail.project,
-        organizer: state.detail.organizer,
-        sponsor: state.detail.sponsor,
+        desc: state.detail.game.desc,
+        guest: state.detail.game.guest,
+        project: state.detail.game.project,
+        organizer: state.detail.game.organizer,
+        sponsor: state.detail.game.sponsor,
         activity_id
       })
     }

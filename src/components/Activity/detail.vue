@@ -58,43 +58,49 @@
           <el-button
             type="text"
             size="small"
-            @click.native.prevent="deleteRow(scope.row.id)"
+            @click.native.prevent="deleteRow(scope.row.id, 2)"
           >
             删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <div class="game">
-      <h1>赛事</h1>
-      <el-button type="text" @click="dialogFormVisible = true">编辑详情</el-button>
-      <el-dialog
-        :visible.sync="dialogFormVisible"
-        title="赛事详情"
-      >
-        <el-form>
-          <el-input
-            :autosize="{ minRows: 2, maxRows: 4}"
-            v-model="detail.game.desc"
-            type="textarea"
-            placeholder="请输入内容"
-          />
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+    <el-tabs type="card" class="detail">
+      <el-tab-pane label="赛事" name="first">
+        <div class="game">
+          <h1>赛事</h1>
+          <el-button type="text" @click="dialogFormVisible = true">编辑详情</el-button>
+          <el-dialog
+            :visible.sync="dialogFormVisible"
+            title="赛事详情"
+          >
+            <el-form>
+              <el-input
+                :autosize="{ minRows: 2, maxRows: 4}"
+                v-model="detail.game.desc"
+                type="textarea"
+                placeholder="请输入内容"
+              />
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible = false">取 消</el-button>
+              <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+            </div>
+          </el-dialog>
+          <p>{{ detail.game.desc }}</p>
+          <project/>
+          <guest/>
+          <organizer/>
+          <sponsor/>
+          <el-button @click="save">保存</el-button>
         </div>
-      </el-dialog>
-      <p>{{ detail.game.desc }}</p>
-      <guest/>
-      <project/>
-      <organizer/>
-      <sponsor/>
-      <el-button @click="save">保存</el-button>
-    </div>
-    <div class="teach">
-      <h1>授课</h1>
-    </div>
+      </el-tab-pane>
+      <el-tab-pane label="授课" name="second">
+        <div class="teach">
+          <h1>授课</h1>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -104,6 +110,7 @@ import project from './project'
 import organizer from './organizer'
 import sponsor from './sponsor'
 import { mapState } from 'vuex'
+import { putStatus } from '@/api/activity'
 export default {
   filters: {
     statusFilter(status) {
@@ -145,6 +152,13 @@ export default {
   methods: {
     save() {
       this.$store.dispatch('createGame', { activity_id: this.$route.query.id })
+    },
+    deleteRow(id, status) {
+      console.log(id)
+      putStatus({ id, status }).then(() => {
+        // this.fetchData()
+        this.$router.push('/activity/list')
+      })
     }
   }
 }
@@ -171,4 +185,8 @@ export default {
   flex-direction: column;
   margin-top: 60px;
 }
+  .detail{
+    width: 1200px;
+    margin-top: 20px;
+  }
 </style>
