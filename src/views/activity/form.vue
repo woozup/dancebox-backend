@@ -40,7 +40,7 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
           class="avatar-uploader"
-          action="/api/img"
+          action="/static/img"
         >
           <img v-if="imageUrl" :src="imageUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"/>
@@ -53,7 +53,7 @@
           :on-success="handleBannerSuccess"
           :before-upload="beforeAvatarUpload"
           class="avatar-uploader"
-          action="/api/img"
+          action="/static/img"
         >
           <img v-if="BannerImageUrl" :src="BannerImageUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"/>

@@ -84,19 +84,36 @@ export default {
   },
   computed: {
     ...mapState({
-      project: state => state.activity.detail.game.project,
+      project: state => {
+        let project = state.activity.detail.game.project
+        console.log('333332')
+        console.log(project)
+        if (!project) {
+          project = {
+            table: [],
+            llist: []
+          }
+        }
+        return project
+      },
       table: state => {
         const project = state.activity.detail.game.project
-        return project.table.map(val => {
-          const obj = {}
-          project.list.forEach((v, i) => {
-            obj[v] = val.value[i]
+
+        if (project && project.table && project.table.length > 0) {
+          console.log('0000')
+          return project.table.map(val => {
+            const obj = {}
+            project.list.forEach((v, i) => {
+              obj[v] = val.value[i]
+            })
+            return {
+              level: val.level,
+              ...obj
+            }
           })
-          return {
-            level: val.level,
-            ...obj
-          }
-        })
+        } else {
+          return []
+        }
       }
     })
   },

@@ -1,30 +1,31 @@
 <template>
   <div class="main">
     <h3>艺术家阵容</h3>
-    <el-row :gutter="20">
-      <el-col :span="16">    <div class="">
-        <h3>已选择</h3>
-        <draggable :list="guest" class="list-group" group="people" @change="log">
-          <div
-            v-for="(element) in guest"
-            :key="element.name"
-            class="list-group-item"
-          >
-            {{ element.name }} <img :src="element.img " width="50" height="50" alt="">
-          </div>
-        </draggable>
-      </div>
+    <el-row class="row">
+      <el-col :span="10">
+        <div class="guest">
+          <h3 class="guest-title">已选择</h3>
+          <draggable :list="guest" class="list-group" group="people" @change="log">
+            <div
+              v-for="(element) in guest"
+              :key="element.name"
+              class="list-group-item"
+            ><img :src="element.img " class="list-avatar" width="50" height="50" alt="">
+              <div> {{ element.name }} </div>
+            </div>
+          </draggable>
+        </div>
       </el-col>
-      <el-col :span="8">
-        <div class="">
+      <el-col :span="12">
+        <div class="g-data">
           <h3>嘉宾数据库</h3>
           <draggable :list="list2" class="list-group" group="people" @change="log">
             <div
               v-for="(element) in list2"
               :key="element.name"
               class="list-group-item"
-            >
-              {{ element.name }} <img :src="'/api/img/' + element.img " width="50" height="50" alt="">
+            ><img :src="element.img " class="list-avatar" width="50" height="50" alt="">
+              <div> {{ element.name }} </div>
             </div>
           </draggable>
         </div>
@@ -73,11 +74,37 @@ export default {
   .main{
     display: flex;
     flex-direction: column;
-    width: 400px;
+    justify-content: center;
+    width: 1200px;
     height: 600px;
   }
   .w{
     display: flex;
     flex-direction: column;
   }
+  .list-group{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 300px;
+  }
+  .list-group-item{
+    margin: 0px 2px 0px 2px;
+  }
+  .list-avatar{
+    border-radius: 30px;
+  }
+  .row{
+    width: 100%;
+  }
+  .g-data{
+    height:500px;
+    border: 2px solid red;
+  }
+  .guest{
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+  }
+  .guest-title{text-align: center}
 </style>

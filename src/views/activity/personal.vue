@@ -26,7 +26,7 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
             class="avatar-uploader"
-            action="/api/img"
+            action="/static/img"
           >
             <img v-if="imgUrl" :src="imgUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"/>
@@ -59,7 +59,7 @@
       </el-table-column>
       <el-table-column label="图片" width="210" align="center">
         <template slot-scope="scope">
-          <span> <img :src="'/api/img/' +scope.row.img" width="100" height="100"></span>
+          <span> <img :src="scope.row.img" width="100" height="100"></span>
         </template>
       </el-table-column>
       <el-table-column label="类型" width="210">

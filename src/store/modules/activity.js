@@ -22,7 +22,7 @@ const activity = {
       state.showDetail = status
     },
     SET_GUEST: (state, list) => {
-      state.detail.guest = list
+      state.detail.game.guest = list
     },
     SET_TABLE: (state, data) => {
       // console.log(state.detail.game.project.table)

@@ -90,8 +90,8 @@
           <p>{{ detail.game.desc }}</p>
           <project/>
           <guest/>
-          <organizer/>
-          <sponsor/>
+          <!--<organizer/>-->
+          <!--<sponsor/>-->
           <el-button @click="save">保存</el-button>
         </div>
       </el-tab-pane>
@@ -176,7 +176,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 1200px;
 }
 .teach{
   display: flex;

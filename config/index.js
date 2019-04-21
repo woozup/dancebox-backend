@@ -10,7 +10,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': 'http://localhost:3007'
+      '/api': 'http://localhost:3007',
+      '/static': 'http://localhost:3007'
     },
 
     // Various Dev Server settings
