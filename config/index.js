@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': 'http://localhost:3007',
-      '/static': 'http://localhost:3007'
+      '/activity_img': 'http://localhost:3007'
     },
 
     // Various Dev Server settings
