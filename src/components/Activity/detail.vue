@@ -90,14 +90,51 @@
           <p>{{ detail.game.desc }}</p>
           <project/>
           <guest/>
-          <!--<organizer/>-->
-          <!--<sponsor/>-->
-          <el-button @click="save">保存</el-button>
+          <organizer/>
+          <sponsor/>
+          <el-button @click="saveGame">保存</el-button>
         </div>
       </el-tab-pane>
       <el-tab-pane label="授课" name="second">
         <div class="teach">
           <h1>授课</h1>
+          <el-button type="text" @click="dialogFormVisible2= true">编辑授课信息</el-button>
+          <el-dialog
+            :visible.sync="dialogFormVisible2"
+            title="赛事详情"
+          >
+            <el-form>
+              <el-input
+                :autosize="{ minRows: 2, maxRows: 4}"
+                v-model="detail.teach_info.desc"
+                type="textarea"
+                placeholder="请输入内容"
+              />
+              <el-input
+                :autosize="{ minRows: 2, maxRows: 4}"
+                v-model="detail.teach_info.time"
+                type="textarea"
+                placeholder="请输入授课时间"
+              />
+              <el-input
+                :autosize="{ minRows: 2, maxRows: 4}"
+                v-model="detail.teach_info.location"
+                type="textarea"
+                placeholder="请输入授课地址"
+              />
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible2 = false">取 消</el-button>
+              <el-button type="primary" @click="dialogFormVisible2 = false">确 定</el-button>
+            </div>
+          </el-dialog>
+          <p>{{ detail.teach_info.desc }}</p>
+          <p>{{ detail.teach_info.time }}</p>
+          <p>{{ detail.teach_info.location }}</p>
+          <div>
+            <teacher/>
+          </div>
+          <el-button @click="saveTeach">保存</el-button>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -109,6 +146,7 @@ import guest from './guest'
 import project from './project'
 import organizer from './organizer'
 import sponsor from './sponsor'
+import teacher from './teacher'
 import { mapState } from 'vuex'
 import { putStatus } from '@/api/activity'
 export default {
@@ -122,7 +160,8 @@ export default {
     guest: guest,
     project: project,
     sponsor: sponsor,
-    organizer: organizer
+    organizer: organizer,
+    teacher: teacher
   },
   data() {
     return {
@@ -130,6 +169,7 @@ export default {
       listLoading: false,
       dialogTableVisible: false,
       dialogFormVisible: false,
+      dialogFormVisible2: false,
       formLabelWidth: '120px'
     }
   },
@@ -140,8 +180,6 @@ export default {
   },
   watch: {
     detail(val) {
-      console.log(4444)
-      console.log(val)
     }
   },
   created() {
@@ -150,8 +188,21 @@ export default {
   mounted() {
   },
   methods: {
-    save() {
+    saveGame() {
       this.$store.dispatch('createGame', { activity_id: this.$route.query.id })
+      this.$notify({
+        title: '成功',
+        message: '修改成功',
+        type: 'success'
+      })
+    },
+    saveTeach() {
+      this.$store.dispatch('createTeach', { activity_id: this.$route.query.id })
+      this.$notify({
+        title: '成功',
+        message: '修改成功',
+        type: 'success'
+      })
     },
     deleteRow(id, status) {
       console.log(id)

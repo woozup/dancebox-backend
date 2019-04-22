@@ -1,13 +1,13 @@
 <template>
   <div class="main">
-    <h3>主办方</h3>
+    <h3>授课老师</h3>
     <el-row class="row">
       <el-col :span="10">
         <div class="guest">
           <h3 class="guest-title">已选择</h3>
-          <draggable :list="organizer" class="list-group" group="people" @change="log">
+          <draggable :list="teacher" class="list-group" group="people" @change="log">
             <div
-              v-for="(element) in organizer"
+              v-for="(element) in teacher"
               :key="element.name"
               class="list-group-item"
             ><img :src="element.img " class="list-avatar" width="50" height="50" alt="">
@@ -18,7 +18,7 @@
       </el-col>
       <el-col :span="12">
         <div class="g-data">
-          <h3>主办方数据库</h3>
+          <h3>老师数据库</h3>
           <draggable :list="list2" class="list-group" group="people" @change="log">
             <div
               v-for="(element) in list2"
@@ -40,7 +40,7 @@ export default {
     return {
       list1: [],
       list2: [],
-      organizer: []
+      teacher: []
     }
   },
   computed: {
@@ -50,11 +50,11 @@ export default {
   },
   watch: {
     getDetail(detail) {
-      this.organizer = detail.game.organizer ? detail.game.organizer : []
+      this.sponsor = detail.teach_info.teacher ? detail.teach_info.teacher : []
     }
   },
   created() {
-    getPersonal(1).then(data => {
+    getPersonal(0).then(data => {
       this.list2 = data.personal
     })
   },
@@ -64,7 +64,7 @@ export default {
   methods: {
     log: function(evt) {
       // window.console.log(evt)
-      this.$store.commit('SET_ORG', this.organizer)
+      this.$store.commit('SET_TEACHER', this.teacher)
     }
   }
 }

@@ -61,8 +61,9 @@
       </el-form-item>
       <el-form-item label="活动标签">
         <el-checkbox-group v-model="form.remark">
-          <el-checkbox label="比赛" name="type" value="比赛" />
-          <el-checkbox label="音乐" name="type" value="音乐" />
+          <el-checkbox label="赛事" name="type" value="赛事" />
+          <el-checkbox label="授课" name="type" value="授课" />
+          <el-checkbox label="演出" name="type" value="演出" />
         </el-checkbox-group>
       </el-form-item>
       <el-form-item>

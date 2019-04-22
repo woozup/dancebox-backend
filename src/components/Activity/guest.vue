@@ -54,7 +54,7 @@ export default {
     }
   },
   created() {
-    getPersonal().then(data => {
+    getPersonal(0).then(data => {
       this.list2 = data.personal
     })
   },

@@ -43,9 +43,9 @@ export function createPersonal({ name, type, img }) {
     }
   })
 }
-export function getPersonal() {
+export function getPersonal(type) {
   return request({
-    url: '/api/admin/personal',
+    url: '/api/admin/personal?type=' + type,
     method: 'get'
   })
 }
@@ -53,6 +53,14 @@ export function getPersonal() {
 export function createGame(data) {
   return request({
     url: '/api/admin/game',
+    method: 'post',
+    data
+  })
+}
+
+export function createTeach(data) {
+  return request({
+    url: '/api/admin/teach',
     method: 'post',
     data
   })

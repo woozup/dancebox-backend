@@ -1,5 +1,5 @@
 import { getToken } from '@/utils/auth'
-import { create, getList, createGame, getDetail } from '@/api/activity'
+import { create, getList, createGame, getDetail,createTeach } from '@/api/activity'
 const activity = {
   state: {
     token: getToken(),
@@ -9,6 +9,7 @@ const activity = {
           table: []
         }
       },
+      teach_info: {},
       activity: {}
     },
     showDetail: false,
@@ -23,6 +24,15 @@ const activity = {
     },
     SET_GUEST: (state, list) => {
       state.detail.game.guest = list
+    },
+    SET_ORG: (state, list) => {
+      state.detail.game.organizer = list
+    },
+    SET_SPO: (state, list) => {
+      state.detail.game.sponsor = list
+    },
+    SET_TEACHER: (state, list) => {
+      state.detail.teach_info.teacher = list
     },
     SET_TABLE: (state, data) => {
       // console.log(state.detail.game.project.table)
@@ -57,6 +67,15 @@ const activity = {
         project: state.detail.game.project,
         organizer: state.detail.game.organizer,
         sponsor: state.detail.game.sponsor,
+        activity_id
+      })
+    },
+    async createTeach({ commit, state }, { activity_id }) {
+      return createTeach({
+        desc: state.detail.teach_info.desc,
+        location: state.detail.teach_info.location,
+        time: state.detail.teach_info.time,
+        teacher: state.detail.teach_info.teacher,
         activity_id
       })
     }
