@@ -66,16 +66,6 @@ export const constantRouterMap = [
       { path: 'detail', component: () => import('@/views/activity/detail'), hidden: true }
     ]
   },
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 
