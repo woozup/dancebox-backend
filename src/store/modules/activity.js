@@ -1,5 +1,5 @@
 import { getToken } from '@/utils/auth'
-import { create, getList, createGame, getDetail,createTeach } from '@/api/activity'
+import { create, getList, createGame, getDetail, createTeach } from '@/api/activity'
 const activity = {
   state: {
     token: getToken(),

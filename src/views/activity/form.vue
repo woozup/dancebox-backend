@@ -18,18 +18,7 @@
         <el-col :span="2" class="line">-</el-col>
       </el-form-item>
       <el-form-item label="城市">
-        <el-select v-model="form.city" placeholder="请选择">
-          <el-option-group
-            v-for="group in options3"
-            :key="group.label"
-            :label="group.label">
-            <el-option
-              v-for="item in group.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"/>
-          </el-option-group>
-        </el-select>
+        <el-input v-model="form.city" placeholder="请输入城市名，如：（上海） 不要输入(上海市)"/>
       </el-form-item>
       <el-form-item label="活动地址">
         <el-input v-model="form.location" />
@@ -66,6 +55,26 @@
           <el-checkbox label="演出" name="type" value="演出" />
         </el-checkbox-group>
       </el-form-item>
+      <el-form-item label="舞种">
+        <el-select
+          v-model="form.dance"
+          multiple
+          filterable
+          allow-create
+          default-first-option
+          placeholder="请选择文章标签"
+          @change="change"
+        >
+          <el-option
+            v-for="item in dance"
+            :key="item"
+            :label="item"
+            :value="item"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="购买的url">
+        <el-input v-model="form.url" />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
       </el-form-item>
@@ -77,6 +86,11 @@
 export default {
   data() {
     return {
+      dance: [
+        'popping',
+        'hiphop',
+        'breaking'
+      ],
       form: {
         name: '',
         region: '',
@@ -86,7 +100,9 @@ export default {
         remark: [],
         desc: '',
         project: [],
-        img: ''
+        img: '',
+        dance: [],
+        url: ''
       },
       imageUrl: '',
       BannerImageUrl: '',
@@ -136,12 +152,10 @@ export default {
       })
     },
     handleAvatarSuccess(res, file) {
-      console.log(file)
       this.form.img = res.file_name
       this.imageUrl = URL.createObjectURL(file.raw)
     },
     handleBannerSuccess(res, file) {
-      console.log(file)
       this.form.banner_img = res.file_name
       this.BannerImageUrl = URL.createObjectURL(file.raw)
     },
@@ -151,6 +165,9 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isLt2M
+    },
+    change(data) {
+      this.dance_list = data
     }
   }
 }

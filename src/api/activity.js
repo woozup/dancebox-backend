@@ -50,6 +50,13 @@ export function getPersonal(type) {
   })
 }
 
+export function deletePersonal(id) {
+  return request({
+    url: '/api/admin/personal?id=' + id,
+    method: 'delete'
+  })
+}
+
 export function createGame(data) {
   return request({
     url: '/api/admin/game',
