@@ -29,7 +29,7 @@
             class="avatar-uploader"
             action="/activity_img/img"
           >
-            <img v-if="imgUrl" :src="imgUrl" class="avatar" />
+            <img v-if="imgUrl" :src="imgUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column label="图片" width="210" align="center">
         <template slot-scope="scope">
-          <span> <img :src="scope.row.img" width="100" height="100"/></span>
+          <span> <img :src="scope.row.img" width="100" height="100"></span>
         </template>
       </el-table-column>
       <el-table-column label="类型" width="210">
@@ -83,7 +83,7 @@
   </div>
 </template>
 <script>
-import { createPersonal, getPersonal, deletePersonal } from "@/api/activity";
+import { createPersonal, getPersonal, deletePersonal } from '@/api/activity'
 
 export default {
   data() {
