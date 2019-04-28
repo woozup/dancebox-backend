@@ -81,6 +81,7 @@
                 type="textarea"
                 placeholder="请输入内容"
               />
+              <Tiny/>
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -149,6 +150,7 @@ import sponsor from './sponsor'
 import teacher from './teacher'
 import { mapState } from 'vuex'
 import { putStatus } from '@/api/activity'
+import Tiny from '../Tinymce'
 export default {
   filters: {
     statusFilter(status) {
@@ -161,7 +163,8 @@ export default {
     project: project,
     sponsor: sponsor,
     organizer: organizer,
-    teacher: teacher
+    teacher: teacher,
+    Tiny
   },
   data() {
     return {
