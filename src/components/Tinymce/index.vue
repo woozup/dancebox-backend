@@ -170,7 +170,11 @@ export default {
       window.tinymce.get(this.tinymceId).setContent(value)
     },
     getContent() {
-      window.tinymce.get(this.tinymceId).getContent()
+      let res = window.tinymce.get(this.tinymceId).getContent()
+      // console.log(res)
+      // this.$emit('submitText', res)
+      // this.value= res
+      // console.log(this.value)
     },
     imageSuccessCBK(arr) {
       const _this = this
