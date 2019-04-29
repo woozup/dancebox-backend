@@ -75,12 +75,6 @@
             title="赛事详情"
           >
             <el-form>
-              <!--<el-input-->
-                <!--:autosize="{ minRows: 2, maxRows: 4}"-->
-                <!--v-model="detail.game.desc"-->
-                <!--type="textarea"-->
-                <!--placeholder="请输入内容"-->
-              <!--/>-->
               <Tiny id="desc"/>
             </el-form>
             <div slot="footer" class="dialog-footer">
