@@ -66,6 +66,52 @@ export const constantRouterMap = [
       { path: 'detail', component: () => import('@/views/activity/detail'), hidden: true }
     ]
   },
+  {
+    path: '/community',
+    component: Layout,
+    name: 'community',
+    meta: { title: '圈子管理', icon: 'example' },
+    children: [
+      {
+        path: 'topic',
+        name: 'topic',
+        component: () => import('@/views/community/topic'),
+        meta: { title: '话题管理', icon: 'table' }
+      },
+      {
+        path: 'post',
+        name: 'post',
+        component: () => import('@/views/community/post'),
+        meta: { title: '帖子管理', icon: 'table' }
+      },
+      {
+        path: 'comment',
+        name: 'comment',
+        component: () => import('@/views/community/comment'),
+        meta: { title: '评论管理', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    name: 'user',
+    meta: { title: '用户管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/user/list'),
+        meta: { title: '用户列表', icon: 'table' }
+      },
+      {
+        path: 'black',
+        name: 'black',
+        component: () => import('@/views/user/black'),
+        meta: { title: 'black', icon: 'table' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

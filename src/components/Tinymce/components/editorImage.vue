@@ -12,7 +12,7 @@
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
-        action="https://httpbin.org/post"
+        action="/activity_img/img"
         list-type="picture-card"
       >
         <el-button size="small" type="primary">
@@ -53,6 +53,7 @@ export default {
     },
     handleSubmit() {
       const arr = Object.keys(this.listObj).map(v => this.listObj[v])
+      console.log(arr)
       if (!this.checkAllSuccess()) {
         this.$message('请等待所有图片上传成功 或 出现了网络问题，请刷新页面重新上传！')
         return
@@ -63,11 +64,12 @@ export default {
       this.dialogVisible = false
     },
     handleSuccess(response, file) {
+      // console.log(response)
       const uid = file.uid
       const objKeyArr = Object.keys(this.listObj)
       for (let i = 0, len = objKeyArr.length; i < len; i++) {
         if (this.listObj[objKeyArr[i]].uid === uid) {
-          this.listObj[objKeyArr[i]].url = response.files.file
+          this.listObj[objKeyArr[i]].url = response.file_name
           this.listObj[objKeyArr[i]].hasSuccess = true
           return
         }
