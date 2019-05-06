@@ -61,8 +61,10 @@ const activity = {
       commit('SET_DETAIL', detail)
     },
     async createGame({ commit, state }, { activity_id }) {
+      const desc = window.tinymce.get('desc').getContent()
+      // console.log(desc)
       return createGame({
-        desc: state.detail.game.desc,
+        desc: desc,
         guest: state.detail.game.guest,
         project: state.detail.game.project,
         organizer: state.detail.game.organizer,

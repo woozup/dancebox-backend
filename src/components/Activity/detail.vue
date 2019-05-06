@@ -75,13 +75,7 @@
             title="赛事详情"
           >
             <el-form>
-              <el-input
-                :autosize="{ minRows: 2, maxRows: 4}"
-                v-model="detail.game.desc"
-                type="textarea"
-                placeholder="请输入内容"
-              />
-              <Tiny/>
+              <Tiny id="desc"/>
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -213,6 +207,10 @@ export default {
         // this.fetchData()
         this.$router.push('/activity/list')
       })
+    },
+    submitText(text) {
+      console.log(1111,text)
+      this.detail.game.desc = text
     }
   }
 }

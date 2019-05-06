@@ -4,7 +4,6 @@
     <div class="editor-custom-btn-container">
       <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
     </div>
-    <button @click="getContent">确定</button>
   </div>
 </template>
 
@@ -171,8 +170,11 @@ export default {
       window.tinymce.get(this.tinymceId).setContent(value)
     },
     getContent() {
-      const res = window.tinymce.get(this.tinymceId).getContent()
-      console.log(res)
+      let res = window.tinymce.get(this.tinymceId).getContent()
+      // console.log(res)
+      // this.$emit('submitText', res)
+      // this.value= res
+      // console.log(this.value)
     },
     imageSuccessCBK(arr) {
       const _this = this
