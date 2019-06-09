@@ -87,9 +87,17 @@ export default {
   data() {
     return {
       dance: [
-        'popping',
-        'hiphop',
-        'breaking'
+        'POPPING',
+        'LOCKING',
+        'HIPHOP',
+        'BREAKING',
+        'URBRAN',
+        'WAACKING',
+        'HOUSE',
+        'FREESTYLE',
+        '齐舞',
+        '少儿齐舞',
+        '少儿BATTLE'
       ],
       form: {
         name: '',

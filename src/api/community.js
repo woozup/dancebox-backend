@@ -46,3 +46,11 @@ export function setUp(data) {
     data
   })
 }
+
+export function setRecommand(data) {
+  return request({
+    url: '/api/admin/community/set_recommend',
+    method: 'post',
+    data
+  })
+}

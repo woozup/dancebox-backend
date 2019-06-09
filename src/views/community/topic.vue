@@ -16,6 +16,12 @@
             type="textarea"
           />
         </el-form-item>
+        <el-form-item label="必须审核">
+          <el-switch
+            v-model="form.check"
+            active-text="先发后审"
+            inactive-text="先审后发"/>
+        </el-form-item>
         <el-form-item label="图片">
           <el-upload
             :show-file-list="false"
@@ -54,6 +60,11 @@
       <el-table-column label="话题规则" >
         <template slot-scope="scope">
           {{ scope.row.desc }}
+        </template>
+      </el-table-column>
+      <el-table-column label="审核规则" >
+        <template slot-scope="scope">
+          {{ scope.row.check === 1 ? '需审核后显示': '无需审核可显示' }}
         </template>
       </el-table-column>
       <el-table-column label="Bnanner" width="110" align="center">
@@ -130,9 +141,6 @@ export default {
       // putStatus({ id, status }).then(() => {
       //   this.fetchData()
       // })
-    },
-    showDetail(id) {
-      this.$router.push({ path: '/activity/detail', query: { id }})
     },
     onSubmit() {
       this.$refs.form.validate(valid => {

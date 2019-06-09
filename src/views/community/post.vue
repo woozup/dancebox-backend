@@ -1,19 +1,22 @@
 <template>
   <div class="app-container">
-
     <el-select v-model="select" placeholder="请选择" @change="changeStatus">
       <el-option
         key="0"
         label="全部"
-        value="2"/>
+        value="3"/>
       <el-option
         key="1"
-        label="正常"
+        label="未审核"
         value="0"/>
       <el-option
         key="2"
-        label="已删除"
+        label="已审核"
         value="1"/>
+      <el-option
+        key="3"
+        label="已删除"
+        value="2"/>
     </el-select>
     <el-table
       v-loading="listLoading"
@@ -59,12 +62,22 @@
       </el-table-column>
       <el-table-column label="状态" width="110" align="center">
         <template slot-scope="scope">
-          {{ scope.row.status }}
+          {{ scope.row.status | statusFilter }}
         </template>
       </el-table-column>
       <el-table-column label="置顶值" width="110" align="center">
         <template slot-scope="scope">
           {{ scope.row.sort }}
+        </template>
+      </el-table-column>
+      <el-table-column label="是否首页推荐" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.recommend | recommandFilter }}
+        </template>
+      </el-table-column>
+      <el-table-column label="是否为首页置顶" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.recommend === 2 ? '是': '否' }}
         </template>
       </el-table-column>
       <el-table-column
@@ -75,10 +88,18 @@
           <el-button
             type="text"
             size="small"
-            @click.native.prevent="deleteRow(scope.row.id, scope.row.status === 0 ? 1 : 0)"
+            @click.native.prevent="deleteRow(scope.row.id, 1)"
           >
-            {{ scope.row.status === 0 ? 1 : 0 | statusFilter }}
+            {{ scope.row.status === 0 ? '审核' : '' }}
           </el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click.native.prevent="deleteRow(scope.row.id, scope.row.status !== 2 ? 2 : 0)"
+          >
+            {{ scope.row.status !== 2 ? '删除' : '恢复' }}
+          </el-button>
+
           <el-button
             type="text"
             size="small"
@@ -86,27 +107,44 @@
           >
             置顶
           </el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click.native.prevent="setRecommand(scope.row.id, scope.row.recommend === 0 ? 1 : 0)"
+          >
+            {{ scope.row.recommend === 0 ? '设置推荐' : '取消推荐' }}
+          </el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click.native.prevent="setRecommand(scope.row.id, scope.row.recommend < 1 ? 2 : 0)"
+          >
+            {{ scope.row.recommend < 1 ? ' 置顶到首页' : '取消置顶到首页' }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       :hide-on-single-page="page_hidden"
       :total="5"
-      layout="prev, pager, next">
-    </el-pagination>
+      layout="prev, pager, next"/>
   </div>
 </template>
 
 <script>
-import { getPost, setStatus, setUp } from '@/api/community'
+import { getPost, setStatus, setUp, setRecommand } from '@/api/community'
 export default {
   filters: {
     statusFilter(status) {
-      const statusMap = ['恢复正常', '下线', '删除']
+      const statusMap = ['未审核', '已审核', '已删除']
       return statusMap[status]
     },
     genderFilter(gender) {
       const map = ['未知', '男', '女']
+      return map[gender]
+    },
+    recommandFilter(gender) {
+      const map = ['不推荐', '推荐', '推荐']
       return map[gender]
     }
   },
@@ -159,6 +197,13 @@ export default {
     },
     changeStatus() {
       this.fetchData()
+    },
+    setRecommand(id, status) {
+      setRecommand({
+        id, recommend: status
+      }).then(() => {
+        this.fetchData()
+      })
     }
   }
 }
