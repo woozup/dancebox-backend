@@ -37,7 +37,7 @@
       </el-table-column>
       <el-table-column label="图片" >
         <template slot-scope="scope">
-          <img :src="scope.row.img" alt="">
+          <img :src="scope.row.img" width="200" height="200" alt="">
         </template>
       </el-table-column>
       <el-table-column label="用户名" width="110">
