@@ -17,9 +17,32 @@ export function getTopics() {
   })
 }
 
-export function getPost() {
+export function getPost({ select }) {
   return request({
-    url: '/api/admin/community/post',
+    url: '/api/admin/community/post?select=' + select,
     method: 'get'
+  })
+}
+
+export function setStatus(data) {
+  return request({
+    url: '/api/admin/community/status',
+    method: 'post',
+    data
+  })
+}
+
+export function getCommentList({ select }) {
+  return request({
+    url: '/api/admin/community/comment_list?select=' + select,
+    method: 'get'
+  })
+}
+
+export function setUp(data) {
+  return request({
+    url: '/api/admin/community/setup',
+    method: 'post',
+    data
   })
 }

@@ -93,10 +93,6 @@ export default {
     statusFilter(status) {
       const statusMap = ['正常', '下线', '删除']
       return statusMap[status]
-    },
-    genderFilter(gender) {
-      const map = ['未知', '男', '女']
-      return map[gender]
     }
   },
   data() {

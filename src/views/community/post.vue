@@ -1,6 +1,20 @@
 <template>
   <div class="app-container">
 
+    <el-select v-model="select" placeholder="请选择" @change="changeStatus">
+      <el-option
+        key="0"
+        label="全部"
+        value="2"/>
+      <el-option
+        key="1"
+        label="正常"
+        value="0"/>
+      <el-option
+        key="2"
+        label="已删除"
+        value="1"/>
+    </el-select>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -43,6 +57,16 @@
           {{ scope.row.created_at }}
         </template>
       </el-table-column>
+      <el-table-column label="状态" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.status }}
+        </template>
+      </el-table-column>
+      <el-table-column label="置顶值" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.sort }}
+        </template>
+      </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
@@ -58,22 +82,27 @@
           <el-button
             type="text"
             size="small"
-            @click.native.prevent="showDetail(scope.row.id)"
+            @click.native.prevent="setUp(scope.row.id)"
           >
             置顶
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      :hide-on-single-page="page_hidden"
+      :total="5"
+      layout="prev, pager, next">
+    </el-pagination>
   </div>
 </template>
 
 <script>
-import { getPost } from '@/api/community'
+import { getPost, setStatus, setUp } from '@/api/community'
 export default {
   filters: {
     statusFilter(status) {
-      const statusMap = ['正常', '下线', '删除']
+      const statusMap = ['恢复正常', '下线', '删除']
       return statusMap[status]
     },
     genderFilter(gender) {
@@ -91,7 +120,9 @@ export default {
         banner: '',
         desc: ''
       },
-      imgUrl: ''
+      imgUrl: '',
+      select: 0,
+      page_hidden: false
     }
   },
   mounted() {
@@ -100,7 +131,7 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getPost().then(data => {
+      getPost({ select: this.select }).then(data => {
         console.log(data)
         this.list = data.list
       }).catch(e => {
@@ -113,9 +144,21 @@ export default {
       // putStatus({ id, status }).then(() => {
       //   this.fetchData()
       // })
+      setStatus({ status, id, type: 'post' }).then(() => {
+        this.fetchData()
+      })
     },
     showDetail(id) {
       this.$router.push({ path: '/activity/detail', query: { id }})
+    },
+    setUp(id) {
+      const num = prompt('请输入置顶的排序值，越大越靠前')
+      setUp({ id, sort: num, type: 'post' }).then(() => {
+        this.fetchData()
+      })
+    },
+    changeStatus() {
+      this.fetchData()
     }
   }
 }
