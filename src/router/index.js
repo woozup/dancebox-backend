@@ -112,6 +112,46 @@ export const constantRouterMap = [
       }
     ]
   },
+  {
+    path: '/project',
+    component: Layout,
+    name: 'project',
+    meta: { title: '项目库', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/project/index'),
+        meta: { title: '项目库', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: 'form',
+        component: () => import('@/views/project/form'),
+        meta: { title: '添加项目', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/referee',
+    component: Layout,
+    name: 'referee',
+    meta: { title: '公共裁判库', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/referee/index'),
+        meta: { title: '公共裁判库', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: 'form',
+        component: () => import('@/views/referee/form'),
+        meta: { title: '添加裁判', icon: 'table' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

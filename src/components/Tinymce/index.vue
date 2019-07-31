@@ -170,7 +170,7 @@ export default {
       window.tinymce.get(this.tinymceId).setContent(value)
     },
     getContent() {
-      let res = window.tinymce.get(this.tinymceId).getContent()
+      const res = window.tinymce.get(this.tinymceId).getContent()
       // console.log(res)
       // this.$emit('submitText', res)
       // this.value= res
