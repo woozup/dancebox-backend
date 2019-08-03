@@ -152,6 +152,26 @@ export const constantRouterMap = [
       }
     ]
   },
+  {
+    path: '/template',
+    component: Layout,
+    name: 'template',
+    meta: { title: '评分模版', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/template/index'),
+        meta: { title: '评分模版', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: 'form',
+        component: () => import('@/views/template/form'),
+        meta: { title: '添加评分模版', icon: 'table' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

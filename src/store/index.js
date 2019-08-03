@@ -5,6 +5,7 @@ import admin from './modules/admin'
 import activity from './modules/activity'
 import project from './modules/project'
 import referee from './modules/referee'
+import template from './modules/template'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
     admin,
     activity,
     project,
-    referee
+    referee,
+    template
   },
   getters
 })
