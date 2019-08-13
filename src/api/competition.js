@@ -21,3 +21,10 @@ export function getCompetitionDetail(id) {
     method: 'get'
   })
 }
+
+export function deleteCompetition(activity_id, id) {
+  return request({
+    url: `/api/competition/${activity_id}/${id}`,
+    method: 'delete'
+  })
+}

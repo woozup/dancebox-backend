@@ -41,14 +41,14 @@
       </el-form-item>
       <el-dialog :visible.sync="dialogFormVisible" title="自定义区间值">
         <el-col :span="12">
-        <el-form-item label="最小值：">
+          <el-form-item label="最小值：">
             <el-input  v-model="form.min" type="number"></el-input>
-        </el-form-item>
+          </el-form-item>
         </el-col>
         <el-col :span="12">
-        <el-form-item label="最大值：">
+          <el-form-item label="最大值：">
             <el-input v-model="form.max" type="number"></el-input>
-        </el-form-item>
+          </el-form-item>
         </el-col>
         <div slot="footer" class="dialog-footer">
           <el-button @click="numberCancel">取 消</el-button>

@@ -100,7 +100,8 @@ export default {
           name: '',
           weight: ''
         }]
-      }
+      },
+      row_num: 0
     }
   },
   methods: {
@@ -131,12 +132,17 @@ export default {
     },
     deleteRow(id) {
       if(id !== 0) {
-        this.form.criterias.splice(id, 1)
+        this.form.criterias.forEach((v, i) => {
+          if(v.row_num == id) {
+            this.form.criterias.splice(id, 1)
+          }
+        })
       }
     },
     addRow(id){
+      this.row_num += 1;
       this.form.criterias.push({
-          row_num: id+1,
+          row_num: this.row_num,
           name: '',
           weight: ''
         })

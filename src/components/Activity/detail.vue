@@ -1,17 +1,18 @@
 <template>
   <div class="main">
     <el-tabs style="width: 100%; height:50%" v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="基本信息" name="detail" :key="'detail'">
+      <el-tab-pane label="基本信息" name="detail" :key="'detail'"
+      before-leave="true">
         <activity_info v-if="isDetail"></activity_info>
       </el-tab-pane>
-      <el-tab-pane label="项目赛制" name="competition" :key="'competition'">
+      <el-tab-pane label="项目赛制" name="competition" :key="'competition'" before-leave="true">
         <competition v-if="isCompetition"></competition>    
       </el-tab-pane>
       <el-tab-pane label="选手管理" name="player" :key="'player'">
-        <child2 v-if="isPlayer"></child2>    
+        <competition v-if="isPlayer"></competition>    
       </el-tab-pane>
       <el-tab-pane label="裁判设置" name="referee" :key="'referee'">
-        <child2 v-if="isReferee"></child2>    
+        <competition v-if="isReferee"></competition>    
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -26,7 +27,7 @@ import teacher from './teacher'
 import activity from './activity'
 import competition from './competition'
 import { mapState } from 'vuex'
-import { putStatus } from '@/api/activity'
+import { putStatus, getDetail } from '@/api/activity'
 import Tiny from '../Tinymce'
 export default {
   filters: {
@@ -57,7 +58,8 @@ export default {
       isDetail:true,
       isCompetition:false,
       isPlayer:false,
-      isReferee:false
+      isReferee:false,
+      activityName: null
     }
   },
   computed: {
@@ -66,10 +68,7 @@ export default {
     })
   },
   created() {
-    // this.$store.dispatch('getDetail', this.$route.query.id)
-    // this.$store.dispatch('getCompetitions', this.$route.query.id)
-    // this.$store.dispatch('getDetail', this.$route.query.id)
-    // this.$store.dispatch('getDetail', this.$route.query.id)
+    this.$store.dispatch('getDetail', this.$route.query.id)
   },
   mounted() {
   },

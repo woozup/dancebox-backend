@@ -1,10 +1,11 @@
 import { getToken } from '@/utils/auth'
-import { create, getProjectDetail } from '@/api/project'
+import { create, getProjectDetail, getAllProject } from '@/api/project'
 
 const project = {
   state: {
     token: getToken(),
     detail: { },
+    projects: [],
     showDetail: false
   },
   mutations: {
@@ -14,8 +15,11 @@ const project = {
     SET_SHOW_DETAIL: (state, status) => {
       state.showDetail = status
     },
-    SET_DETAIL: (state, detail) => {
-      state.detail = detail
+    // SET_DETAIL: (state, detail) => {
+    //   state.detail = detail
+    // },
+    SET_PROJECTS: (state, projects) => {
+      state.projects = projects
     }
   },
   actions: {
@@ -25,7 +29,8 @@ const project = {
     async getProjectDetail({ commit, state }, id) {
       const detail = await getProjectDetail(id)
       commit('SET_DETAIL', detail)
-    }
+    },
+  
   }
 }
 

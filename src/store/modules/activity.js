@@ -87,8 +87,8 @@ const activity = {
       })
     },
     async getCompetitions({ commit, state }, activity_id) {
-      const competitions = await getCompetitionList(activity_id)
-      commit('SET_COMPETITIONS', competitions)
+      const data = await getCompetitionList(activity_id)
+      commit('SET_COMPETITIONS', data.competitions)
     },
   }
 }

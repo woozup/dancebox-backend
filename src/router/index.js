@@ -63,7 +63,11 @@ export const constantRouterMap = [
         component: () => import('@/views/activity/personal'),
         meta: { title: '艺术家以及主办方', icon: 'table' }
       },
-      { path: 'detail', component: () => import('@/views/activity/detail'), hidden: true }
+      { 
+        path: 'detail', 
+        name: 'detail',
+        component: () => import('@/views/activity/detail'), 
+        hidden: true }
     ]
   },
   {
