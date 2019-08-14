@@ -59,6 +59,7 @@
         <el-form-item label="裁判名称">
           <el-input v-model="referee.name" style="width:200px"/>
         </el-form-item>
+
         <el-form-item label="裁判头像">
           <el-upload
             :show-file-list="false"
@@ -71,6 +72,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
+
         <el-form-item label="性别">
           <div>
             <el-select
@@ -89,14 +91,17 @@
           </el-select>
           </div>
         </el-form-item>
+
         <el-form-item label="国家地区">
           <el-input v-model="referee.country" placeholder=""></el-input>
         </el-form-item>
+
         <el-form-item label="个人简介">
           <el-input v-model="referee.profile" placeholder="请输入简介，限制150字" type="textarea" rows="5"></el-input>
         </el-form-item>
+
         <el-button type="primary" @click="onSubmit()">提交</el-button>
-      </el-form-item>
+      <!-- </el-form-item> -->
       </el-form>
     </el-dialog>
   </div>

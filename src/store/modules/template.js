@@ -1,5 +1,8 @@
 import { getToken } from '@/utils/auth'
 import { create, getTemplateDetail } from '@/api/template'
+import {
+  getProjectDetail
+} from '@/api/project'
 
 const template = {
   state: {

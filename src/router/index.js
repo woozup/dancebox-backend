@@ -47,25 +47,25 @@ export const constantRouterMap = [
     children: [
       {
         path: 'list',
-        name: 'list',
+        name: 'activityList',
         component: () => import('@/views/activity/list'),
         meta: { title: '活动列表', icon: 'table' }
       },
       {
         path: 'create',
-        name: 'form',
+        name: 'activityForm',
         component: () => import('@/views/activity/form'),
         meta: { title: '添加活动', icon: 'table' }
       },
       {
         path: 'personal',
-        name: 'personal',
+        name: 'activityPersonal',
         component: () => import('@/views/activity/personal'),
         meta: { title: '艺术家以及主办方', icon: 'table' }
       },
       { 
         path: 'detail', 
-        name: 'detail',
+        name: 'activityDetail',
         component: () => import('@/views/activity/detail'), 
         hidden: true }
     ]
@@ -78,19 +78,19 @@ export const constantRouterMap = [
     children: [
       {
         path: 'topic',
-        name: 'topic',
+        name: 'communityTopic',
         component: () => import('@/views/community/topic'),
         meta: { title: '话题管理', icon: 'table' }
       },
       {
         path: 'post',
-        name: 'post',
+        name: 'communityPost',
         component: () => import('@/views/community/post'),
         meta: { title: '帖子管理', icon: 'table' }
       },
       {
         path: 'comment',
-        name: 'comment',
+        name: 'communityComment',
         component: () => import('@/views/community/comment'),
         meta: { title: '评论管理', icon: 'table' }
       }
@@ -104,13 +104,13 @@ export const constantRouterMap = [
     children: [
       {
         path: 'list',
-        name: 'list',
+        name: 'userList',
         component: () => import('@/views/user/list'),
         meta: { title: '用户列表', icon: 'table' }
       },
       {
         path: 'black',
-        name: 'black',
+        name: 'userBlack',
         component: () => import('@/views/user/black'),
         meta: { title: 'black', icon: 'table' }
       }
@@ -124,13 +124,13 @@ export const constantRouterMap = [
     children: [
       {
         path: 'list',
-        name: 'list',
+        name: 'porjectList',
         component: () => import('@/views/project/index'),
         meta: { title: '项目库', icon: 'table' }
       },
       {
         path: 'create',
-        name: 'form',
+        name: 'projectForm',
         component: () => import('@/views/project/form'),
         meta: { title: '添加项目', icon: 'table' }
       }
@@ -144,13 +144,13 @@ export const constantRouterMap = [
     children: [
       {
         path: 'list',
-        name: 'list',
+        name: 'refereeList',
         component: () => import('@/views/referee/index'),
         meta: { title: '公共裁判库', icon: 'table' }
       },
       {
         path: 'create',
-        name: 'form',
+        name: 'refereeForm',
         component: () => import('@/views/referee/form'),
         meta: { title: '添加裁判', icon: 'table' }
       }
@@ -164,13 +164,13 @@ export const constantRouterMap = [
     children: [
       {
         path: 'list',
-        name: 'list',
+        name: 'templateList',
         component: () => import('@/views/template/index'),
         meta: { title: '评分模版', icon: 'table' }
       },
       {
         path: 'create',
-        name: 'form',
+        name: 'templateForm',
         component: () => import('@/views/template/form'),
         meta: { title: '添加评分模版', icon: 'table' }
       }

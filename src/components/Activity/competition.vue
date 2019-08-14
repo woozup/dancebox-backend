@@ -23,7 +23,8 @@
             @change="selectPro"
         >
           <el-option
-            v-for="item in pro_list"
+            v-for="(item, $index) in pro_list"
+            :key='$index'
             :label="item.name"
             :value="item.id" /> 
         </el-select>
@@ -48,7 +49,8 @@
             @change="selectTem"
         >
           <el-option
-            v-for="item in tem_list"
+            v-for="(item, $index) in tem_list"
+            :key='$index'
             :label="item.name"
             :value="item.id" /> 
         </el-select>
@@ -59,12 +61,12 @@
             :data="com_item.groups"
             style="width: 100%">
               <el-table-column label="分组名称">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <el-input v-model="scope.row.name" type="text" size="small"></el-input>
                 </template>
               </el-table-column>
               <el-table-column label="号码牌分组区间">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <el-input v-model="scope.row.min" type="number" size="mini" ></el-input>
                 -
                   <el-input v-model="scope.row.max" type="number" size="mini" rows="1"></el-input>
@@ -101,7 +103,7 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="项目名称"">
+      <el-table-column label="项目名称">
         <template slot-scope="scope">
           {{ scope.row.name }}
         </template>

@@ -1,5 +1,8 @@
 import { getToken } from '@/utils/auth'
 import { create, getRefereeDetail } from '@/api/referee'
+import {
+  getProjectDetail
+} from '@/api/project'
 
 const referee = {
   state: {

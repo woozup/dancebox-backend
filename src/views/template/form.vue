@@ -47,12 +47,12 @@
         tooltip-effect="dark"
         style="width: 100%">
           <el-table-column label="评分项名称" width="180">
-            <template scope="scope">
+            <template slot-scope="scope">
               <el-input v-model="scope.row.name" ></el-input>
             </template>
           </el-table-column>
           <el-table-column label="权重" width="120">
-            <template scope="scope">
+            <template slot-scope="scope">
               <el-input v-model="scope.row.weight" type="number" min="0" max="100"
               :change="check_num(scope.row.row_num)"></el-input>
             </template>
