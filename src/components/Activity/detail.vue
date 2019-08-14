@@ -1,100 +1,20 @@
 <template>
   <div class="main">
-    <el-table
-      v-loading="listLoading"
-      :data="[detail.activity]"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row>
-      <el-table-column align="center" label="ID" width="95">
-        <template slot-scope="scope">
-          {{ scope.row.id }}
-        </template>
-      </el-table-column>
-      <el-table-column label="标题" >
-        <template slot-scope="scope">
-          {{ scope.row.title }}
-        </template>
-      </el-table-column>
-      <el-table-column label="标签" >
-        <template slot-scope="scope">
-          {{ scope.row.remark }}
-        </template>
-      </el-table-column>
-      <el-table-column label="图片" width="110" align="center">
-        <template slot-scope="scope">
-          <span> <img :src="scope.row.img" width="100" height="100"></span>
-        </template>
-      </el-table-column>
-      <el-table-column label="位置" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.location }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="城市" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.city }}
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="状态" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">  {{ scope.row.status === 0 ? 1 : 0 | statusFilter }}</el-tag>
-
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="created_at" label="时间" width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.start_time }}</span>
-          <i class="el-icon-time"/>
-          <span>{{ scope.row.end_time }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作"
-        width="120">
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            @click.native.prevent="deleteRow(scope.row.id)"
-          >
-            删除
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="game">
-      <h1>赛事</h1>
-      <el-button type="text" @click="dialogFormVisible = true">编辑详情</el-button>
-      <el-dialog
-        :visible.sync="dialogFormVisible"
-        title="赛事详情"
-      >
-        <el-form>
-          <el-input
-            :autosize="{ minRows: 2, maxRows: 4}"
-            v-model="detail.game.desc"
-            type="textarea"
-            placeholder="请输入内容"
-          />
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-        </div>
-      </el-dialog>
-      <p>{{ detail.game.desc }}</p>
-      <guest/>
-      <project/>
-      <organizer/>
-      <sponsor/>
-      <el-button @click="save">保存</el-button>
-    </div>
-    <div class="teach">
-      <h1>授课</h1>
-    </div>
+    <el-tabs style="width: 100%; height:50%" v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="基本信息" name="detail" :key="'detail'"
+      before-leave="true">
+        <activity_info v-if="isDetail"></activity_info>
+      </el-tab-pane>
+      <el-tab-pane label="项目赛制" name="competition" :key="'competition'" before-leave="true">
+        <competition v-if="isCompetition"></competition>    
+      </el-tab-pane>
+      <el-tab-pane label="选手管理" name="player" :key="'player'">
+        <competition v-if="isPlayer"></competition>    
+      </el-tab-pane>
+      <el-tab-pane label="裁判设置" name="referee" :key="'referee'">
+        <competition v-if="isReferee"></competition>    
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -103,7 +23,12 @@ import guest from './guest'
 import project from './project'
 import organizer from './organizer'
 import sponsor from './sponsor'
+import teacher from './teacher'
+import activity from './activity'
+import competition from './competition'
 import { mapState } from 'vuex'
+import { putStatus, getDetail } from '@/api/activity'
+import Tiny from '../Tinymce'
 export default {
   filters: {
     statusFilter(status) {
@@ -115,7 +40,11 @@ export default {
     guest: guest,
     project: project,
     sponsor: sponsor,
-    organizer: organizer
+    organizer: organizer,
+    teacher: teacher,
+    Tiny,
+    activity_info: activity,
+    competition
   },
   data() {
     return {
@@ -123,7 +52,14 @@ export default {
       listLoading: false,
       dialogTableVisible: false,
       dialogFormVisible: false,
-      formLabelWidth: '120px'
+      dialogFormVisible2: false,
+      formLabelWidth: '120px',
+      activeName: "detail",
+      isDetail:true,
+      isCompetition:false,
+      isPlayer:false,
+      isReferee:false,
+      activityName: null
     }
   },
   computed: {
@@ -131,20 +67,41 @@ export default {
       detail: state => state.activity.detail
     })
   },
-  watch: {
-    detail(val) {
-      console.log(4444)
-      console.log(val)
-    }
-  },
   created() {
     this.$store.dispatch('getDetail', this.$route.query.id)
   },
   mounted() {
   },
   methods: {
-    save() {
-      this.$store.dispatch('createGame', { activity_id: this.$route.query.id })
+    handleClick(tab) {
+      switch(tab.name) {
+        case 'detail':
+          this.isDetail = true;
+          this.isCompetition = false;
+          this.isPlayer = false;
+          this.isReferee = false;
+          this.$store.dispatch('getDetail', this.$route.query.id)
+          break;
+        case 'competition':
+          this.isDetail = false;
+          this.isCompetition = true;
+          this.isPlayer = false;
+          this.isReferee = false;
+          this.$store.dispatch('getCompetitions', this.$route.query.id)
+          break;
+        case 'player':
+          this.isDetail = false;
+          this.isCompetition = false;
+          this.isPlayer = true;
+          this.isReferee = false;
+          break;
+        case 'referee':
+          this.isDetail = false;
+          this.isCompetition = false;
+          this.isPlayer = false;
+          this.isReferee = true;
+          break; 
+      }
     }
   }
 }
@@ -156,19 +113,5 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-.game{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  max-width: 600px;
-}
-.teach{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 60px;
 }
 </style>

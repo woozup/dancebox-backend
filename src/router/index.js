@@ -63,16 +63,116 @@ export const constantRouterMap = [
         component: () => import('@/views/activity/personal'),
         meta: { title: '艺术家以及主办方', icon: 'table' }
       },
-      { path: 'detail', component: () => import('@/views/activity/detail'), hidden: true }
+      { 
+        path: 'detail', 
+        name: 'detail',
+        component: () => import('@/views/activity/detail'), 
+        hidden: true }
     ]
   },
   {
-    path: 'external-link',
+    path: '/community',
     component: Layout,
+    name: 'community',
+    meta: { title: '圈子管理', icon: 'example' },
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'topic',
+        name: 'topic',
+        component: () => import('@/views/community/topic'),
+        meta: { title: '话题管理', icon: 'table' }
+      },
+      {
+        path: 'post',
+        name: 'post',
+        component: () => import('@/views/community/post'),
+        meta: { title: '帖子管理', icon: 'table' }
+      },
+      {
+        path: 'comment',
+        name: 'comment',
+        component: () => import('@/views/community/comment'),
+        meta: { title: '评论管理', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    name: 'user',
+    meta: { title: '用户管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/user/list'),
+        meta: { title: '用户列表', icon: 'table' }
+      },
+      {
+        path: 'black',
+        name: 'black',
+        component: () => import('@/views/user/black'),
+        meta: { title: 'black', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/project',
+    component: Layout,
+    name: 'project',
+    meta: { title: '项目库', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/project/index'),
+        meta: { title: '项目库', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: 'form',
+        component: () => import('@/views/project/form'),
+        meta: { title: '添加项目', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/referee',
+    component: Layout,
+    name: 'referee',
+    meta: { title: '公共裁判库', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/referee/index'),
+        meta: { title: '公共裁判库', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: 'form',
+        component: () => import('@/views/referee/form'),
+        meta: { title: '添加裁判', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/template',
+    component: Layout,
+    name: 'template',
+    meta: { title: '评分模版', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/template/index'),
+        meta: { title: '评分模版', icon: 'table' }
+      },
+      {
+        path: 'create',
+        name: 'form',
+        component: () => import('@/views/template/form'),
+        meta: { title: '添加评分模版', icon: 'table' }
       }
     ]
   },
