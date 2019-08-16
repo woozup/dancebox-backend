@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <el-button type="primary" @click="dialogFormVisible = true">添加</el-button>
-    <el-dialog
-      :visible.sync="dialogFormVisible"
-      title="添加人员以及主办方"
-    >
+    <el-dialog :visible.sync="dialogFormVisible" title="添加人员以及主办方">
       <el-form ref="form" :model="form">
         <el-form-item label="名称">
-          <el-input v-model="form.name" :autosize="{ minRows: 2, maxRows: 4}" />
+          <el-input
+            v-model="form.name"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+          />
         </el-form-item>
         <el-form-item label="名称">
           <el-select v-model="form.type" placeholder="请选择">
@@ -15,7 +15,8 @@
               v-for="item in type"
               :key="item.value"
               :label="item.label"
-              :value="item.value">
+              :value="item.value"
+            >
               <span style="float: left">{{ item.label }}</span>
             </el-option>
           </el-select>
@@ -26,10 +27,10 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
             class="avatar-uploader"
-            action="/api/img"
+            action="/activity_img/img"
           >
             <img v-if="imgUrl" :src="imgUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
       </el-form>
@@ -59,7 +60,7 @@
       </el-table-column>
       <el-table-column label="图片" width="210" align="center">
         <template slot-scope="scope">
-          <span> <img :src="'/api/img/' +scope.row.img" width="100" height="100"></span>
+          <span> <img :src="scope.row.img" width="100" height="100"></span>
         </template>
       </el-table-column>
       <el-table-column label="类型" width="210">
@@ -67,14 +68,12 @@
           {{ scope.row.type }}
         </template>
       </el-table-column>
-      <el-table-column
-        label="操作"
-        width="120">
+      <el-table-column label="操作" width="120">
         <template slot-scope="scope">
           <el-button
             type="text"
             size="small"
-            @click.native.prevent="showDetail(scope.row.id)"
+            @click.native.prevent="deletePersonal(scope.row.id)"
           >
             删除
           </el-button>
@@ -84,7 +83,7 @@
   </div>
 </template>
 <script>
-import { createPersonal, getPersonal } from '@/api/activity'
+import { createPersonal, getPersonal, deletePersonal } from '@/api/activity'
 
 export default {
   data() {
@@ -92,29 +91,12 @@ export default {
       listLoading: false,
       dialogTableVisible: false,
       dialogFormVisible: false,
-      gridData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }],
       form: {
         name: '',
         type: 0,
         img: ''
       },
-      formLabelWidth: '120px',
+      formLabelWidth: '120p',
       type: [
         {
           label: '人员',
@@ -136,7 +118,7 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          createPersonal(this.form).then((res) => {
+          createPersonal(this.form).then(res => {
             console.log(res)
             this.dialogFormVisible = false
             this.getPersonal()
@@ -166,35 +148,40 @@ export default {
       return getPersonal().then(data => {
         this.list = data.personal
       })
+    },
+    deletePersonal(id) {
+      return deletePersonal(id).then(() => {
+        return this.getPersonal
+      })
     }
   }
 }
 </script>
 <style scoped>
-  .line {
-    text-align: center;
-  }
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409eff;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
+.line {
+  text-align: center;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>
