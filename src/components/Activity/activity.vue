@@ -65,6 +65,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <el-tabs type="card" class="detail">
       <el-tab-pane label="赛事" name="first">
         <div class="game">
@@ -82,7 +83,7 @@
               <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
             </div>
           </el-dialog>
-          <p>{{ detail.game.desc }}</p>
+          <p v-html='detail.game.desc'></p>
           <project/>
           <guest/>
           <organizer/>
@@ -90,6 +91,7 @@
           <el-button @click="saveGame">保存</el-button>
         </div>
       </el-tab-pane>
+
       <el-tab-pane label="授课" name="second">
         <div class="teach">
           <h1>授课</h1>
@@ -154,11 +156,11 @@ export default {
     }
   },
   components: {
-    guest: guest,
-    project: project,
-    sponsor: sponsor,
-    organizer: organizer,
-    teacher: teacher,
+    guest
+    ,project
+    ,sponsor
+    ,organizer
+    ,teacher
   },
   data() {
     return {

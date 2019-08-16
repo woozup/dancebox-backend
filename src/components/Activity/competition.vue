@@ -1,8 +1,16 @@
 <template>
   <div class="competition">
-    <h3>海选项目赛制</h3>
-    <el-button type="primary" @click="getData">创建项目赛制</el-button>
-    <el-dialog :visible.sync="dialogFormVisible" title="创建项目赛制">
+
+    <el-row :gutter="20">
+      <el-col :span="20">
+        <p>海选项目赛制</p>
+      </el-col>
+      <el-col :span="4">
+        <el-button type="primary" @click="getData">创建项目赛制</el-button>
+      </el-col>
+    </el-row>
+
+    <el-dialog class='modal-create_competition' :visible.sync="dialogFormVisible" title="创建项目赛制" >
       <el-form ref="com_item" :model="com_item">
         <el-form-item label="活动名称">
           <template>
@@ -91,6 +99,7 @@
         <el-button type="primary" @click="onSubmit()">确 定</el-button>
       </div>
     </el-dialog>
+
     <el-table
       v-loading="listLoading"
       :data="competitions"
@@ -260,29 +269,12 @@ export default {
 }
 </script>
 
-<style scoped>
-.main{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.game{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  max-width: 1200px;
-}
-.teach{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 60px;
-}
-  .detail{
-    width: 1200px;
-    margin-top: 20px;
+<style lang='scss' scopeds>
+  .modal-create_competition{
+    .el-dialog{
+      margin-top: 5vh!important;
+      max-height: 90vh;
+      min-width: 320px;
+    }
   }
 </style>

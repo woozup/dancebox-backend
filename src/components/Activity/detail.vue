@@ -5,12 +5,15 @@
       before-leave="true">
         <activity_info v-if="isDetail"></activity_info>
       </el-tab-pane>
+
       <el-tab-pane label="项目赛制" name="competition" :key="'competition'" before-leave="true">
         <competition v-if="isCompetition"></competition>    
       </el-tab-pane>
+
       <el-tab-pane label="选手管理" name="player" :key="'player'">
-        <competition v-if="isPlayer"></competition>    
+        <competition-players v-if="isPlayer" />
       </el-tab-pane>
+
       <el-tab-pane label="裁判设置" name="referee" :key="'referee'">
         <competition v-if="isReferee"></competition>    
       </el-tab-pane>
@@ -19,6 +22,7 @@
 </template>
 
 <script>
+  import Vue from 'vue'
 import guest from './guest'
 import project from './project'
 import organizer from './organizer'
@@ -41,10 +45,11 @@ export default {
     project: project,
     sponsor: sponsor,
     organizer: organizer,
-    teacher: teacher,
+    teacher,
     Tiny,
     activity_info: activity,
     competition
+    ,competitionPlayers: Vue.component('competition-players', resolve=> import('./competition-players.vue').then(resolve))
   },
   data() {
     return {

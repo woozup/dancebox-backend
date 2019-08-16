@@ -72,3 +72,16 @@ export function createTeach(data) {
     data
   })
 }
+
+/**
+ * @desc 获取全部选手
+ * @param {String/Number} activity_id
+ */
+export function getPlayersList(activity_id){
+  return request({
+    url: '/api/player'
+    ,params: {
+      activity_id
+    }
+  })
+}
