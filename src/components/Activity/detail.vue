@@ -3,20 +3,20 @@
     <el-tabs style="width: 100%; height:50%" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="基本信息" name="detail" :key="'detail'"
       before-leave="true">
-        <activity_info v-if="isDetail"></activity_info>
+        <activity_info v-if="'detail'== activeName"></activity_info>
       </el-tab-pane>
 
       <el-tab-pane label="项目赛制" name="competition" :key="'competition'" before-leave="true">
-        <competition v-if="isCompetition"></competition>    
+        <competition v-if="'competition'== activeName"></competition>    
       </el-tab-pane>
 
-      <el-tab-pane label="选手管理" name="player" :key="'player'">
+      <!-- <el-tab-pane label="选手管理" name="player" :key="'player'">
         <competition-players v-if="isPlayer" />
-      </el-tab-pane>
+      </el-tab-pane> -->
 
-      <el-tab-pane label="裁判设置" name="referee" :key="'referee'">
+      <!-- <el-tab-pane label="裁判设置" name="referee" :key="'referee'">
         <competition v-if="isReferee"></competition>    
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
   </div>
 </template>
@@ -49,7 +49,6 @@ export default {
     Tiny,
     activity_info: activity,
     competition
-    ,competitionPlayers: Vue.component('competition-players', resolve=> import('./competition-players.vue').then(resolve))
   },
   data() {
     return {
@@ -59,7 +58,7 @@ export default {
       dialogFormVisible: false,
       dialogFormVisible2: false,
       formLabelWidth: '120px',
-      activeName: "detail",
+      activeName: this.$route.path.match('activity/competition')? 'competition': "detail",
       isDetail:true,
       isCompetition:false,
       isPlayer:false,
@@ -74,6 +73,7 @@ export default {
   },
   created() {
     this.$store.dispatch('getDetail', this.$route.query.id)
+    this.$store.dispatch('getCompetitions', this.$route.query.id)
   },
   mounted() {
   },
@@ -81,18 +81,26 @@ export default {
     handleClick(tab) {
       switch(tab.name) {
         case 'detail':
-          this.isDetail = true;
-          this.isCompetition = false;
-          this.isPlayer = false;
-          this.isReferee = false;
-          this.$store.dispatch('getDetail', this.$route.query.id)
+          // this.isDetail = true;
+          // this.isCompetition = false;
+          // this.isPlayer = false;
+          // this.isReferee = false;
+          this.$router.replace({
+            path: '/activity/detail'
+            ,query: {
+              id: this.$route.query.id
+            }
+          })
           break;
         case 'competition':
-          this.isDetail = false;
-          this.isCompetition = true;
-          this.isPlayer = false;
-          this.isReferee = false;
-          this.$store.dispatch('getCompetitions', this.$route.query.id)
+          // this.isDetail = false;
+          // this.isCompetition = true;
+          // this.isPlayer = false;
+          // this.isReferee = false;
+          this.$router.replace({
+            path: `/activity/competition`
+            ,query: this.$route.query
+          })
           break;
         case 'player':
           this.isDetail = false;

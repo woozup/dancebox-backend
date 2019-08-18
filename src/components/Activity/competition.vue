@@ -1,7 +1,7 @@
 <template>
   <div class="competition">
 
-    <el-row :gutter="20">
+    <el-row :gutter="20" v-if='!competition_id'>
       <el-col :span="20">
         <p>海选项目赛制</p>
       </el-col>
@@ -102,11 +102,11 @@
 
     <el-table
       v-loading="listLoading"
-      :data="competitions"
+      :data="selectedItems()"
       element-loading-text="Loading"
       border
       fit
-      highlight-current-row>
+      :highlight-current-row='!competition_id'>
       <el-table-column align="center" label="项目ID" width="95">
         <template slot-scope="scope">
           {{ scope.row.id }}
@@ -139,7 +139,7 @@
           <el-button
             type="text"
             size="small"
-            @click.native.prevent=""
+            @click='mngPlayers(scope.row.id)'
           >
             选手管理
           </el-button>
@@ -160,10 +160,23 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <template v-if="competition_id">
+      <el-tabs type='card' style='margin-top: 1em;' v-model='operationMode' @tab-click="toggleMode">
+        <el-tab-pane label="选手管理" name="players" key="players" before-leave="true" >
+          <competition-players v-if='operationMode== "players"' :data-conf='selectedItems()[0]' />
+        </el-tab-pane>
+
+        <el-tab-pane label="裁判设置" name="referee" key="referee" before-leave="true" >
+          <competition-referee v-if='operationMode== "referee"' />
+        </el-tab-pane>
+      </el-tabs>
+    </template>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue'
 import { mapState } from 'vuex'
 import { deleteCompetition, createCompetition, getCompetitionList } from '@/api/competition'
 import { getAllProject } from '@/api/project'
@@ -171,7 +184,7 @@ import { getAllTemplate } from '@/api/template'
 export default {
   name: "competition",
   filters: {
-    
+
   },
   data() {
     return {
@@ -180,7 +193,8 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: '120px',
       activeName: "competition",
-      activity_id: null,
+      activity_id: this.$route.query.id
+      ,competition_id: this.$route.query.competition_id,
       com_item: {
         name: '',
         win_count: 1,
@@ -197,6 +211,7 @@ export default {
       tem_list: [],
       select_pro_id: '',
       select_tem_id: ''
+      ,operationMode: this.$route.query.operationMode
     }
   },
   computed: {
@@ -207,7 +222,11 @@ export default {
       detail: state => state.activity.detail
     })
   },
-  mounted() {
+  component: {
+    competitionPlayers: Vue.component('competition-players', resolve=> import('./competition-players.vue').then(resolve))
+    ,competitionReferee: Vue.component('competition-referee', resolve=> import('./competition-referee.vue').then(resolve))
+  }
+  ,mounted() {
   },
   methods: {
     async getData(){
@@ -264,6 +283,38 @@ export default {
         .catch(() => {
           this.loading = false
         })
+    }
+    ,mngPlayers(competition_id){
+      this.competition_id= competition_id
+      this.operationMode= 'players'
+      return this.$router.push({
+        path: `/activity/competition`
+        ,query: {
+          id: this.$route.query.id
+          ,competition_id
+          ,operationMode: 'players'
+        }
+      })
+    }
+    //filter: 
+    ,selectedItems(){
+      return this.$route.query.competition_id
+        ? this.competitions.filter(el=> this.competition_id== el.id)
+        : this.competitions
+    }
+    ,toggleMode(mode){
+      return this.$router.replace({
+        path: this.$route.path
+        ,query: {
+          ...this.$route.query
+          ,operationMode: this.operationMode
+        }
+      })
+    }
+  }
+  ,watch: {
+    '$route'(v, vv){
+      this.competition_id= v.query.competition_id
     }
   }
 }

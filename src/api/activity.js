@@ -76,12 +76,133 @@ export function createTeach(data) {
 /**
  * @desc 获取全部选手
  * @param {String/Number} activity_id
+ * @return {Promise} 
  */
 export function getPlayersList(activity_id){
   return request({
     url: '/api/player'
     ,params: {
       activity_id
+    }
+  })
+  .catch(()=>{
+    return {
+      "success": true,
+      "players": [{
+        "id": 1,
+        "name": "test_player_update",
+        "phone": "12345678910",
+        "number": "003",
+        "project_id": 1,
+        "project_name": "test_project_update",
+        "competition_id": 3,
+        "competition_name": "test_competition_update",
+        "group_id": 3,
+        "group_name": "test_competition_group_name_2"
+      }]
+    }
+  })
+}
+
+/**
+ * @desc 创建选手
+ * @param {String} name 选手名
+ * @param {String} phone 手机号
+ * @param {String} number 号码牌
+ * @param {Number} project_id 项目id
+ * @param {Number} activity_id 活动id
+ * @param {Number} competition_id 赛制id
+ * @return {Promise} 
+ */
+export function createPlayer({
+  name
+  ,phone
+  ,number
+  ,project_id
+  ,activity_id
+  ,competition_id
+}){
+  return request({
+    url: `/api/player`
+    ,method: 'post'
+    ,data: {
+      name
+      ,phone
+      ,number
+      ,project_id
+      ,activity_id
+      ,competition_id
+    }
+  })
+  // .catch(()=>{
+  //   return {
+  //     "name": "test_player",
+  //     "phone": "12345678901",
+  //     "number": "001",
+  //     "project_id": 1,
+  //     "activity_id": 1,
+  //     "competition_id": 1
+  //   }
+  // })
+}
+
+/**
+ * @desc 获取单个选手
+ * @param {String} player_id
+ * @return {Promise} 
+ */
+export function getPlayerInfo(player_id){
+  return request({
+    url: `/api/player/${player_id}`
+  })
+  .catch(()=>{
+    return {
+      "success": true,
+      "player": {
+        "id": 1,
+        "name": "test_player_update",
+        "phone": "12345678910",
+        "number": "003",
+        "activity_id": 251,
+        "project_id": 1,
+        "project_name": "test_project_update",
+        "competition_id": 3,
+        "competition_name": "test_competition_update",
+        "group_id": 3,
+        "group_name": "test_competition_group_name_2"
+      }
+    }
+  })
+}
+
+/**
+ * @desc 验证号码牌
+ * @param {String} number	号码牌
+ * @param {Number} project_id 项目id
+ * @param {Number} activity_id 活动id
+ * @param {Number} competition_id 赛制id
+ * @return {Promise} 
+ */
+export function checkPlayerNumber({
+  number
+  ,project_id
+  ,activity_id
+  ,competition_id
+}){
+  return request({
+    url: `/api/player/check`
+    ,method: 'post'
+    ,data: {
+      number
+      ,project_id
+      ,activity_id
+      ,competition_id
+    }
+  })
+  .catch(()=>{
+    return {
+      "success": true,
+      "allow": true
     }
   })
 }

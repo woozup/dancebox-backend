@@ -85,7 +85,7 @@ export default {
   },
   data() {
     return {
-      list: null,
+      list: [],
       listLoading: true
     }
   },
@@ -104,7 +104,9 @@ export default {
       }).catch(e => {
         console.error(e)
       })
-      this.listLoading = false
+      .then(()=>{
+        this.listLoading = false
+      })
     },
     deleteRow(id, status) {
       console.log(id)

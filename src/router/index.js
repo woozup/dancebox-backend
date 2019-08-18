@@ -67,7 +67,20 @@ export const constantRouterMap = [
         path: 'detail', 
         name: 'activityDetail',
         component: () => import('@/views/activity/detail'), 
-        hidden: true }
+        hidden: true
+      }
+      ,{
+        path: 'competition', 
+        name: 'activityCompetition',
+        component: () => import('@/views/activity/detail'), 
+        hidden: true
+      }
+      // ,{
+      //   path: '/competition/:id/players'
+      //   ,name: 'competitionPlayers'
+      //   ,component: ()=> import('@/views/activity/detail')
+      //   ,meta: { title: '选手管理', icon: 'table' }
+      // }
     ]
   },
   {
@@ -179,8 +192,15 @@ export const constantRouterMap = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-export default new Router({
+const router= new Router({
   // mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
+
+// router.beforeEach((to, from, next)=>{
+//   console.info(to.query)
+//   return next()
+// })
+
+export default router

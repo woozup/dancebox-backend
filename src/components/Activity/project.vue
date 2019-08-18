@@ -86,8 +86,7 @@ export default {
     ...mapState({
       project: state => {
         let project = state.activity.detail.game.project
-        console.log('333332')
-        console.log(project)
+        console.log('project:', project)
         if (!project) {
           project = {
             table: [],
@@ -100,7 +99,6 @@ export default {
         const project = state.activity.detail.game.project
 
         if (project && project.table && project.table.length > 0) {
-          console.log('0000')
           return project.table.map(val => {
             const obj = {}
             project.list.forEach((v, i) => {
