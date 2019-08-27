@@ -1,8 +1,14 @@
 import request from '@/utils/request'
 
-export function getAllReferee() {
+/**
+ * @desc 获取全部裁判
+ * @param {Number/String} pageIndex 
+ * @param {Number/String} pageSize 
+ * @return {Promise}
+ */
+export function getAllReferee(pageIndex= 1, pageSize= 10000) {
   return request({
-    url: '/api/referee?pageIndex=1&pageSize=10000',
+    url: `/api/referee?pageIndex=${pageIndex}&pageSize=${pageSize}`,
     method: 'get'
   })
 }
@@ -22,7 +28,12 @@ export function update(id, referee) {
   })
 }
 
-export function create(referee) {
+/**
+ * @desc 创建裁判账号
+ * @param {Object} referee 
+ * @return {Promise}
+ */
+export function create(referee= {}) {
   return request({
     url: `/api/referee`,
     method: 'post',
@@ -36,4 +47,3 @@ export function getRefereeDetail(id) {
     method: 'get'
   })
 }
-

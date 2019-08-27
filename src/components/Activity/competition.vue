@@ -168,7 +168,7 @@
         </el-tab-pane>
 
         <el-tab-pane label="裁判设置" name="referee" key="referee" before-leave="true" >
-          <competition-referee v-if='operationMode== "referee"' />
+          <competition-referee v-if='operationMode== "referee"' :data-conf='selectedItems()[0]' />
         </el-tab-pane>
       </el-tabs>
     </template>

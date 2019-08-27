@@ -206,3 +206,30 @@ export function checkPlayerNumber({
     }
   })
 }
+
+/**
+ * @desc 获取全部裁判账号
+ */
+export function getActivityReferees(activity_id){
+  return request({
+    url: '/referee/account'
+    ,params: {
+      activity_id
+    }
+  })
+  .catch(()=>{
+    return {
+      "success": true,
+      "referee_accounts": [{
+        "id": 1,
+        "username": "test_referee_account",
+        "referee_id": 1,
+        "referee_name": "test_referee_name",
+        "groups": [{
+          "group_id": 1,
+          "group_name": "test_competition_group_name"
+        }]
+      }]
+    }
+  })
+}

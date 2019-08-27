@@ -45,6 +45,7 @@
           ,competition_id: this.$route.query.competition_id- 0
         }
         ,projectList: []
+        ,showModal: !!0
       }
     }
     ,render(){
@@ -211,6 +212,7 @@
                     </el-row>
                   </el-form-item>
 
+                  {/*modal footer*/}
                   <el-form-item>
                     <el-button type="primary" onClick={
                       ()=>{
@@ -238,6 +240,8 @@
                       }
                     }>取消</el-button>
                   </el-form-item>
+                  {/*endof modal footer*/}
+
                 </el-form>
               }
             }}
@@ -248,8 +252,8 @@
     ,methods: {
       getDataList(){
         return getPlayersList(this.$route.query.id)
-        .then(res=>{
-          this.dataList= res.players
+        .then(({players})=>{
+          this.dataList= players
         })
         .then(()=>{
           setTimeout(()=> this.dataLoaded= true, 321)
@@ -268,7 +272,6 @@
       }
     }
     ,created(){
-      // console.clear()
     }
     ,mounted(){
       this.getDataList()
