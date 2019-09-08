@@ -10,8 +10,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': 'http://localhost:3007',
-      '/activity_img': 'http://localhost:3007'
+      // '/api': 'http://localhost:3008',
+      // '/activity_img': 'http://localhost:3008'
+      '/activity_img': 'http://106.15.95.150:3008'
+      ,'/api': 'http://106.15.95.150:9529'
     },
 
     // Various Dev Server settings
@@ -20,7 +22,7 @@ module.exports = {
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: false,
-    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
+    poll: 2000, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions
 
     // Use Eslint Loader?
     // If true, your code will be linted during bundling and

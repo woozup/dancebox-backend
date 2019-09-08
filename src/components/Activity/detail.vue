@@ -1,149 +1,37 @@
 <template>
   <div class="main">
-    <el-table
-      v-loading="listLoading"
-      :data="[detail.activity]"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row>
-      <el-table-column align="center" label="ID" width="95">
-        <template slot-scope="scope">
-          {{ scope.row.id }}
-        </template>
-      </el-table-column>
-      <el-table-column label="标题" >
-        <template slot-scope="scope">
-          {{ scope.row.title }}
-        </template>
-      </el-table-column>
-      <el-table-column label="标签" >
-        <template slot-scope="scope">
-          {{ scope.row.remark }}
-        </template>
-      </el-table-column>
-      <el-table-column label="图片" width="110" align="center">
-        <template slot-scope="scope">
-          <span> <img :src="scope.row.img" width="100" height="100"></span>
-        </template>
-      </el-table-column>
-      <el-table-column label="位置" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.location }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="城市" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.city }}
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="状态" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">  {{ scope.row.status === 0 ? 1 : 0 | statusFilter }}</el-tag>
+    <el-tabs style="width: 100%; height:50%" v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="基本信息" name="detail" :key="'detail'"
+      before-leave="true">
+        <activity_info v-if="'detail'== activeName"></activity_info>
+      </el-tab-pane>
 
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="created_at" label="时间" width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.start_time }}</span>
-          <i class="el-icon-time"/>
-          <span>{{ scope.row.end_time }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作"
-        width="120">
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            @click.native.prevent="deleteRow(scope.row.id, 2)"
-          >
-            删除
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-tabs type="card" class="detail">
-      <el-tab-pane label="赛事" name="first">
-        <div class="game">
-          <h1>赛事</h1>
-          <el-button type="text" @click="dialogFormVisible = true">编辑详情</el-button>
-          <el-dialog
-            :visible.sync="dialogFormVisible"
-            title="赛事详情"
-          >
-            <el-form>
-              <Tiny id="desc"/>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-            </div>
-          </el-dialog>
-          <p>{{ detail.game.desc }}</p>
-          <project/>
-          <guest/>
-          <organizer/>
-          <sponsor/>
-          <el-button @click="saveGame">保存</el-button>
-        </div>
+      <el-tab-pane label="项目赛制" name="competition" :key="'competition'" before-leave="true">
+        <competition v-if="'competition'== activeName"></competition>    
       </el-tab-pane>
-      <el-tab-pane label="授课" name="second">
-        <div class="teach">
-          <h1>授课</h1>
-          <el-button type="text" @click="dialogFormVisible2= true">编辑授课信息</el-button>
-          <el-dialog
-            :visible.sync="dialogFormVisible2"
-            title="赛事详情"
-          >
-            <el-form>
-              <el-input
-                :autosize="{ minRows: 2, maxRows: 4}"
-                v-model="detail.teach_info.desc"
-                type="textarea"
-                placeholder="请输入内容"
-              />
-              <el-input
-                :autosize="{ minRows: 2, maxRows: 4}"
-                v-model="detail.teach_info.time"
-                type="textarea"
-                placeholder="请输入授课时间"
-              />
-              <el-input
-                :autosize="{ minRows: 2, maxRows: 4}"
-                v-model="detail.teach_info.location"
-                type="textarea"
-                placeholder="请输入授课地址"
-              />
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible2 = false">取 消</el-button>
-              <el-button type="primary" @click="dialogFormVisible2 = false">确 定</el-button>
-            </div>
-          </el-dialog>
-          <p>{{ detail.teach_info.desc }}</p>
-          <p>{{ detail.teach_info.time }}</p>
-          <p>{{ detail.teach_info.location }}</p>
-          <div>
-            <teacher/>
-          </div>
-          <el-button @click="saveTeach">保存</el-button>
-        </div>
-      </el-tab-pane>
+
+      <!-- <el-tab-pane label="选手管理" name="player" :key="'player'">
+        <competition-players v-if="isPlayer" />
+      </el-tab-pane> -->
+
+      <!-- <el-tab-pane label="裁判设置" name="referee" :key="'referee'">
+        <competition v-if="isReferee"></competition>    
+      </el-tab-pane> -->
     </el-tabs>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue'
 import guest from './guest'
 import project from './project'
 import organizer from './organizer'
 import sponsor from './sponsor'
 import teacher from './teacher'
+import activity from './activity'
+import competition from './competition'
 import { mapState } from 'vuex'
-import { putStatus } from '@/api/activity'
+import { putStatus, getDetail } from '@/api/activity'
 import Tiny from '../Tinymce'
 export default {
   filters: {
@@ -157,8 +45,10 @@ export default {
     project: project,
     sponsor: sponsor,
     organizer: organizer,
-    teacher: teacher,
-    Tiny
+    teacher,
+    Tiny,
+    activity_info: activity,
+    competition
   },
   data() {
     return {
@@ -167,7 +57,13 @@ export default {
       dialogTableVisible: false,
       dialogFormVisible: false,
       dialogFormVisible2: false,
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
+      activeName: this.$route.path.match('activity/competition')? 'competition': "detail",
+      isDetail:true,
+      isCompetition:false,
+      isPlayer:false,
+      isReferee:false,
+      activityName: null
     }
   },
   computed: {
@@ -175,42 +71,50 @@ export default {
       detail: state => state.activity.detail
     })
   },
-  watch: {
-    detail(val) {
-    }
-  },
   created() {
     this.$store.dispatch('getDetail', this.$route.query.id)
+    this.$store.dispatch('getCompetitions', this.$route.query.id)
   },
   mounted() {
   },
   methods: {
-    saveGame() {
-      this.$store.dispatch('createGame', { activity_id: this.$route.query.id })
-      this.$notify({
-        title: '成功',
-        message: '修改成功',
-        type: 'success'
-      })
-    },
-    saveTeach() {
-      this.$store.dispatch('createTeach', { activity_id: this.$route.query.id })
-      this.$notify({
-        title: '成功',
-        message: '修改成功',
-        type: 'success'
-      })
-    },
-    deleteRow(id, status) {
-      console.log(id)
-      putStatus({ id, status }).then(() => {
-        // this.fetchData()
-        this.$router.push('/activity/list')
-      })
-    },
-    submitText(text) {
-      console.log(1111,text)
-      this.detail.game.desc = text
+    handleClick(tab) {
+      switch(tab.name) {
+        case 'detail':
+          // this.isDetail = true;
+          // this.isCompetition = false;
+          // this.isPlayer = false;
+          // this.isReferee = false;
+          this.$router.replace({
+            path: '/activity/detail'
+            ,query: {
+              id: this.$route.query.id
+            }
+          })
+          break;
+        case 'competition':
+          // this.isDetail = false;
+          // this.isCompetition = true;
+          // this.isPlayer = false;
+          // this.isReferee = false;
+          this.$router.replace({
+            path: `/activity/competition`
+            ,query: this.$route.query
+          })
+          break;
+        case 'player':
+          this.isDetail = false;
+          this.isCompetition = false;
+          this.isPlayer = true;
+          this.isReferee = false;
+          break;
+        case 'referee':
+          this.isDetail = false;
+          this.isCompetition = false;
+          this.isPlayer = false;
+          this.isReferee = true;
+          break; 
+      }
     }
   }
 }
@@ -223,22 +127,4 @@ export default {
   align-items: center;
   flex-direction: column;
 }
-.game{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  max-width: 1200px;
-}
-.teach{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 60px;
-}
-  .detail{
-    width: 1200px;
-    margin-top: 20px;
-  }
 </style>

@@ -76,7 +76,7 @@
             @click.native.prevent="deleteRow(scope.row.id, 1)"
           >
             <!--{{ scope.row.status === 0 ? 1 : 0 | statusFilter }}-->
-            {{ scope.row.status < 1 ? "审核通过" : "" }}
+            {{ 1> scope.row.status ? "审核通过" : "" }}
 
           </el-button>
           <el-button

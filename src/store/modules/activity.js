@@ -1,5 +1,6 @@
 import { getToken } from '@/utils/auth'
 import { create, getList, createGame, getDetail, createTeach } from '@/api/activity'
+import { createCompetition, getCompetitionList, getCompetitionDetail } from '@/api/competition'
 const activity = {
   state: {
     token: getToken(),
@@ -13,7 +14,8 @@ const activity = {
       activity: {}
     },
     showDetail: false,
-    personal_list: []
+    personal_list: [],
+    competitions: []
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -47,6 +49,9 @@ const activity = {
     },
     SET_DETAIL: (state, detail) => {
       state.detail = detail
+    },
+    SET_COMPETITIONS: (state, competitions) => {
+      state.competitions = competitions
     }
   },
   actions: {
@@ -80,7 +85,11 @@ const activity = {
         teacher: state.detail.teach_info.teacher,
         activity_id
       })
-    }
+    },
+    async getCompetitions({ commit, state }, activity_id) {
+      const data = await getCompetitionList(activity_id)
+      commit('SET_COMPETITIONS', data.competitions)
+    },
   }
 }
 

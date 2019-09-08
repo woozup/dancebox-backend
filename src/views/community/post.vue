@@ -119,7 +119,7 @@
             size="small"
             @click.native.prevent="setRecommand(scope.row.id, scope.row.recommend < 1 ? 2 : 0)"
           >
-            {{ scope.row.recommend < 1 ? ' 置顶到首页' : '取消置顶到首页' }}
+            {{ 1> scope.row.recommend ? ' 置顶到首页' : '取消置顶到首页' }}
           </el-button>
         </template>
       </el-table-column>
